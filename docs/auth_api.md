@@ -1,5 +1,3 @@
-Collecting workspace informationDưới đây là tài liệu hướng dẫn cách sử dụng API cho dev frontend:
-
 # 📌 **Tài liệu API - Ứng dụng Authentication**
 
 ## 1️⃣ **Xác thực và bảo mật**
@@ -280,5 +278,6 @@ Authorization: Bearer <access_token>
 Tất cả API trên yêu cầu **đăng nhập trước** và **phải có quyền Admin**. Token xác thực JWT sẽ được gửi qua **Authorization Header** như sau:
 
 ```http
-Authorization: Bearer <access_token>
+Authorization: Bearer (or Token) <access_token>
+
 ```
