@@ -8,6 +8,10 @@ Tất cả API yêu cầu **đăng nhập trước** và **phải có quyền Ad
 Authorization: Bearer <access_token>
 ```
 
+```http
+Nếu test bằng postman Authorization: Token <access_token>
+```
+
 ## 2️⃣ **Đăng nhập và Đăng xuất**
 
 ### Đăng nhập
