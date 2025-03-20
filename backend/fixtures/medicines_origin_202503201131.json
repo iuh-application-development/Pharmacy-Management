@@ -1,0 +1,30 @@
+[
+    {
+        "model": "medicines.origin",
+        "pk": "XCVSDF123",
+        "fields": {
+            "originName": "Việt Nam"
+        }
+    },
+    {
+        "model": "medicines.origin",
+        "pk": "XCVSDF122",
+        "fields": {
+            "originName": "Mỹ"
+        }
+    },
+    {
+        "model": "medicines.origin",
+        "pk": "XCVSDF125",
+        "fields": {
+            "originName": "Pháp"
+        }
+    },
+    {
+        "model": "medicines.origin",
+        "pk": "XCVSDF124",
+        "fields": {
+            "originName": "Nhật Bản"
+        }
+    }
+]

@@ -11,7 +11,7 @@ class Role(models.Model):
         ('Sales', 'Nhân viên bán hàng'),
         ('Product_manager', 'Nhân viên quản lý sản phẩm'),
     ]
-    roleID = models.AutoField(primary_key=True)
+    roleID = models.CharField(max_length=50, primary_key=True)
     roleName = models.CharField(max_length=50, choices=ROLE_CHOICES, unique=True)
 
     def __str__(self):
@@ -19,7 +19,7 @@ class Role(models.Model):
     
 
 class Employee(models.Model):
-    employeeID = models.AutoField(primary_key=True)
+    employeeID = models.CharField(max_length=50, primary_key=True)  # Change to CharField
     fullName = models.CharField(max_length=255)
     phoneNumber = models.CharField(max_length=15, unique=True)
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])
@@ -32,7 +32,7 @@ class Employee(models.Model):
     
 
 class Customer(models.Model):
-    customerID = models.AutoField(primary_key=True)
+    customerID = models.CharField(max_length=50, primary_key=True)
     fullName = models.CharField(max_length=100)
     phoneNumber = models.CharField(max_length=15, unique=True)
     gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female')])

@@ -1,0 +1,52 @@
+[
+    {
+        "model": "sales.payment",
+        "pk": "PPJ9DNBL7",
+        "fields": {
+            "paymentTime": "2024-03-04T06:12:42.000Z",
+            "employee": "DKJFJO1K2",
+            "supplier": "XCZXWE123",
+            "totalAmount": 10500000.00
+        }
+    },
+    {
+        "model": "sales.payment",
+        "pk": "RXPXRWR36",
+        "fields": {
+            "paymentTime": "2024-03-05T04:31:26.000Z",
+            "employee": "ADMIN",
+            "supplier": "23HUSZ173",
+            "totalAmount": 19800000.00
+        }
+    },
+    {
+        "model": "sales.payment",
+        "pk": "ZQKV59121",
+        "fields": {
+            "paymentTime": "2024-03-06T00:18:32.000Z",
+            "employee": "LKD2SFSL1",
+            "supplier": "ZXHUWE12S",
+            "totalAmount": 6000000.00
+        }
+    },
+    {
+        "model": "sales.payment",
+        "pk": "C45PX5VYN",
+        "fields": {
+            "paymentTime": "2024-03-07T03:26:21.000Z",
+            "employee": "IU42JDKJ2",
+            "supplier": "XCHUWE123",
+            "totalAmount": 77000000.00
+        }
+    },
+    {
+        "model": "sales.payment",
+        "pk": "A4B3VKX8V",
+        "fields": {
+            "paymentTime": "2024-03-11T01:35:37.000Z",
+            "employee": "IU42JDKJ2",
+            "supplier": "XCHUWE123",
+            "totalAmount": 9500000.00
+        }
+    }
+]

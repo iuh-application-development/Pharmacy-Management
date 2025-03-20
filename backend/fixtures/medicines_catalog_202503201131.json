@@ -1,0 +1,23 @@
+[
+    {
+        "model": "medicines.catalog",
+        "pk": "ZXC311QWE",
+        "fields": {
+            "catalogName": "Hệ tim mạch & tạo máu"
+        }
+    },
+    {
+        "model": "medicines.catalog",
+        "pk": "ZXC321QWE",
+        "fields": {
+            "catalogName": "Hệ tiêu hóa & gan mật"
+        }
+    },
+    {
+        "model": "medicines.catalog",
+        "pk": "ZAQ321QWE",
+        "fields": {
+            "catalogName": "Thuốc giảm đau"
+        }
+    }
+]

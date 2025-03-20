@@ -1,0 +1,146 @@
+[
+    {
+        "model": "medicines.medicine",
+        "pk": "X12IFO4BZ",
+        "fields": {
+            "medicineName": "Hapacol 650 DHG",
+            "image": "medicines/hapacol_650_extra_dhg.png",
+            "ingredients": "Paracetamol",
+            "stockQuantity": 1021,
+            "importPrice": 20000.00,
+            "unitPrice": 25000.00,
+            "catalog": "ZAQ321QWE",
+            "origin": "XCVSDF123",
+            "unit": "CVB123ERT",
+            "expiryDate": "2026-02-15"
+        }
+    },
+    {
+        "model": "medicines.medicine",
+        "pk": "XRZXFO4BZ",
+        "fields": {
+            "medicineName": "Bột pha hỗn dịch uống Smecta vị cam",
+            "image": "medicines/bot-pha-hon-dich-uong-smecta.jpg",
+            "ingredients": "Diosmectite",
+            "stockQuantity": 1021,
+            "importPrice": 3000.00,
+            "unitPrice": 4000.00,
+            "catalog": "ZXC321QWE",
+            "origin": "XCVSDF125",
+            "unit": "CVB141ERT",
+            "expiryDate": "2026-05-21"
+        }
+    },
+    {
+        "model": "medicines.medicine",
+        "pk": "XRBIFO4BZ",
+        "fields": {
+            "medicineName": "Siro C.C Life 100mg/5ml Foripharm",
+            "image": "medicines/C.c-Life-100MgChai.jpg",
+            "ingredients": "Vitamin C",
+            "stockQuantity": 1032,
+            "importPrice": 25000.00,
+            "unitPrice": 30000.00,
+            "catalog": "ZXC321QWE",
+            "origin": "XCVSDF123",
+            "unit": "CV123GERT",
+            "expiryDate": "2026-03-01"
+        }
+    },
+    {
+        "model": "medicines.medicine",
+        "pk": "VFZCHLHIE",
+        "fields": {
+            "medicineName": "Panadol Extra đỏ",
+            "image": "medicines/Panadol-Extra.png",
+            "ingredients": "Caffeine, Paracetamol",
+            "stockQuantity": 1034,
+            "importPrice": 235000.00,
+            "unitPrice": 250000.00,
+            "catalog": "ZAQ321QWE",
+            "origin": "XCVSDF122",
+            "unit": "CVB123ERT",
+            "expiryDate": "2026-08-07"
+        }
+    },
+    {
+        "model": "medicines.medicine",
+        "pk": "MJ9AB7J1I",
+        "fields": {
+            "medicineName": "Viên sủi Vitatrum C BRV",
+            "image": "medicines/vitatrum-c-brv.png",
+            "ingredients": "Sỏi thận, Rối loạn chuyển hoá fructose, Bệnh Thalassemia, Tăng oxalat niệu, Rối loạn chuyển hoá oxalat",
+            "stockQuantity": 1076,
+            "importPrice": 20000.00,
+            "unitPrice": 24000.00,
+            "catalog": "ZXC321QWE",
+            "origin": "XCVSDF122",
+            "unit": "CVB123ERT",
+            "expiryDate": "2027-12-31"
+        }
+    },
+    {
+        "model": "medicines.medicine",
+        "pk": "ESMJMM7T1",
+        "fields": {
+            "medicineName": "Bổ Gan Trường Phúc",
+            "image": "medicines/bo-gan-tuong-phu.jpg",
+            "ingredients": "Diệp hạ châu, Đảng Sâm, Bạch truật, Cam thảo, Phục Linh, Nhân trần, Trần bì",
+            "stockQuantity": 1034,
+            "importPrice": 85000.00,
+            "unitPrice": 95000.00,
+            "catalog": "ZXC321QWE",
+            "origin": "XCVSDF123",
+            "unit": "CVB123ERT",
+            "expiryDate": "2026-02-15"
+        }
+    },
+    {
+        "model": "medicines.medicine",
+        "pk": "BV07519DS",
+        "fields": {
+            "medicineName": "Bài Thạch Trường Phúc",
+            "image": "medicines/bai-trang-truong-phuc.jpg",
+            "ingredients": "Xa tiền tử, Bạch mao căn, Sinh Địa, Ý Dĩ, Kim tiền thảo",
+            "stockQuantity": 1076,
+            "importPrice": 85000.00,
+            "unitPrice": 95000.00,
+            "catalog": "ZXC321QWE",
+            "origin": "XCVSDF123",
+            "unit": "CVB123ERT",
+            "expiryDate": "2026-02-10"
+        }
+    },
+    {
+        "model": "medicines.medicine",
+        "pk": "798E63U16",
+        "fields": {
+            "medicineName": "Đại Tràng Trường Phúc",
+            "image": "medicines/dai-trang-truong-phuc.jpg",
+            "ingredients": "Hoàng liên, Mộc hương, Bạch truật, Bạch thược, Ngũ bội tử, Hậu phác, Cam thảo, Xa tiền tử, Hoạt thạch",
+            "stockQuantity": 1021,
+            "importPrice": 90000.00,
+            "unitPrice": 105000.00,
+            "catalog": "ZXC321QWE",
+            "origin": "XCVSDF123",
+            "unit": "CVB123ERT",
+            "expiryDate": "2026-09-03"
+        }
+    },
+    {
+        "model": "medicines.medicine",
+        "pk": "745KCI1KX",
+        "fields": {
+            "medicineName": "Ninh Tâm Vương Hồng Bàng",
+            "image": "medicines/ninh-tam-vuong-hong-bang.png",
+            "ingredients": "L-Carnitine, Taurine, Đan sâm, Khổ sâm bắc, Nattokinase, Hoàng đằng, Magie, Tá dược vừa đủ",
+            "stockQuantity": 1054,
+            "importPrice": 165000.00,
+            "unitPrice": 180000.00,
+            "catalog": "ZXC311QWE",
+            "origin": "XCVSDF124",
+            "unit": "CVB123ERT",
+            "expiryDate": "2026-08-15"
+        }
+    }
+]

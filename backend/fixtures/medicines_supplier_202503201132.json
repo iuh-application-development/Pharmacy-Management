@@ -1,0 +1,56 @@
+[
+    {
+        "model": "medicines.supplier",
+        "pk": "XCZXWE123",
+        "fields": {
+            "supplierName": "Công ty Cổ phần Dược phẩm An Khang",
+            "phoneNumber": "0283820618",
+            "address": "282-284 Trần Hưng Đạo, Phường Nguyễn Cư Trinh, Quận 1, TP.HCM"
+        }
+    },
+    {
+        "model": "medicines.supplier",
+        "pk": "23HUSZ173",
+        "fields": {
+            "supplierName": "Công ty Cổ phần Dược phẩm Pharmacity",
+            "phoneNumber": "0243825353",
+            "address": "426 Võ Văn Ngân, Phường Bình Thọ, Quận Thủ Đức, TP.HCM"
+        }
+    },
+    {
+        "model": "medicines.supplier",
+        "pk": "ZXHUWE12S",
+        "fields": {
+            "supplierName": "Hệ thống nhà thuốc ECO",
+            "phoneNumber": "0283689339",
+            "address": "336 Phan Văn Trị, Phường 11, Quận Bình Thạnh, TP.HCM"
+        }
+    },
+    {
+        "model": "medicines.supplier",
+        "pk": "N4M35KL1B",
+        "fields": {
+            "supplierName": "Công ty Dược phẩm Phano",
+            "phoneNumber": "0243574133",
+            "address": "286 P. Xã Đàn, Đống Đa, Hà Nội"
+        }
+    },
+    {
+        "model": "medicines.supplier",
+        "pk": "XCHUWE123",
+        "fields": {
+            "supplierName": "Công ty Dược phẩm Trung ương 2",
+            "phoneNumber": "0243825535",
+            "address": "138B Đội Cấn, Ba Đình, Hà Nội"
+        }
+    },
+    {
+        "model": "medicines.supplier",
+        "pk": "2B32N31B2",
+        "fields": {
+            "supplierName": "Công ty Dược phẩm VCP",
+            "phoneNumber": "0285413833",
+            "address": "780 Đường Nguyễn Văn Linh, Phường Tân Phong, Quận 7, TP. Hồ Chí Minh"
+        }
+    }
+]

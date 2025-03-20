@@ -1,0 +1,30 @@
+[
+    {
+        "model": "authentication.role",
+        "pk": "1",
+        "fields": {
+            "roleName": "Admin"
+        }
+    },
+    {
+        "model": "authentication.role",
+        "pk": "nvql",
+        "fields": {
+            "roleName": "Nhân viên Quản Lý"
+        }
+    },
+    {
+        "model": "authentication.role",
+        "pk": "nvbh",
+        "fields": {
+            "roleName": "Nhân viên Bán hàng"
+        }
+    },
+    {
+        "model": "authentication.role",
+        "pk": "nvsp",
+        "fields": {
+            "roleName": "Nhân viên Quản lý Sản phẩm"
+        }
+    }
+]

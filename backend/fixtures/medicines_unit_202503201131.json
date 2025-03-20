@@ -1,0 +1,37 @@
+[
+    {
+        "model": "medicines.unit",
+        "pk": "CVBDF123T",
+        "fields": {
+            "unitName": "Viên"
+        }
+    },
+    {
+        "model": "medicines.unit",
+        "pk": "CV123GERT",
+        "fields": {
+            "unitName": "Chai"
+        }
+    },
+    {
+        "model": "medicines.unit",
+        "pk": "CVB123ERT",
+        "fields": {
+            "unitName": "Hộp"
+        }
+    },
+    {
+        "model": "medicines.unit",
+        "pk": "CVB141ERT",
+        "fields": {
+            "unitName": "Gói"
+        }
+    },
+    {
+        "model": "medicines.unit",
+        "pk": "CV1223ERT",
+        "fields": {
+            "unitName": "Vỉ"
+        }
+    }
+]

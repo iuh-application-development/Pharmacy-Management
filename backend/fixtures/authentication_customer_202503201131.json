@@ -1,0 +1,102 @@
+[
+    {
+        "model": "authentication.customer",
+        "pk": "ASDASN131",
+        "fields": {
+            "fullName": "Nguyễn Văn Hùng",
+            "phoneNumber": "0906765871",
+            "gender": "Nam",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "12ZAS1SX1",
+        "fields": {
+            "fullName": "Nguyễn Thị Lan",
+            "phoneNumber": "0931265687",
+            "gender": "Nữ",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "SDF3F13DZ",
+        "fields": {
+            "fullName": "Lê Đức Anh",
+            "phoneNumber": "0967566712",
+            "gender": "Nam",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "ABCD12345",
+        "fields": {
+            "fullName": "Trần Mai Hương",
+            "phoneNumber": "0987654321",
+            "gender": "Nữ",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "XYZ98765Z",
+        "fields": {
+            "fullName": "Phạm Xuân Phong",
+            "phoneNumber": "0912345678",
+            "gender": "Nam",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "KLM45678X",
+        "fields": {
+            "fullName": "Lê Thị Linh",
+            "phoneNumber": "0956789012",
+            "gender": "Nữ",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "PQR23456V",
+        "fields": {
+            "fullName": "Hồ Ngọc Minh",
+            "phoneNumber": "0923456789",
+            "gender": "Nam",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "789ABCDEF",
+        "fields": {
+            "fullName": "Võ Thị Hải Yến",
+            "phoneNumber": "0945678901",
+            "gender": "Nữ",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "456ZYXWVQ",
+        "fields": {
+            "fullName": "Phạm Thị Anh",
+            "phoneNumber": "0978901234",
+            "gender": "Nữ",
+            "joinDate": "2024-02-15"
+        }
+    },
+    {
+        "model": "authentication.customer",
+        "pk": "QWE78901S",
+        "fields": {
+            "fullName": "Hoàng Hữu Đức",
+            "phoneNumber": "0912345679",
+            "gender": "Nam",
+            "joinDate": "2024-02-15"
+        }
+    }
+]

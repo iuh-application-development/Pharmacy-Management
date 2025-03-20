@@ -1,0 +1,50 @@
+[
+    {
+        "model": "authentication.employee",
+        "pk": "ADMIN",
+        "fields": {
+            "fullName": "Admin",
+            "phoneNumber": "0111111111",
+            "gender": "Nam",
+            "yearOfBirth": 2003,
+            "hireDate": "2024-01-01",
+            "is_active": true
+        }
+    },
+    {
+        "model": "authentication.employee",
+        "pk": "LKD2SFSL1",
+        "fields": {
+            "fullName": "Nguyễn Phan Anh Tuấn",
+            "phoneNumber": "0906765871",
+            "gender": "Nam",
+            "yearOfBirth": 2003,
+            "hireDate": "2024-02-12",
+            "is_active": true
+        }
+    },
+    {
+        "model": "authentication.employee",
+        "pk": "IU42JDKJ2",
+        "fields": {
+            "fullName": "Vũ Nương",
+            "phoneNumber": "0931265687",
+            "gender": "Nữ",
+            "yearOfBirth": 2003,
+            "hireDate": "2024-02-15",
+            "is_active": true
+        }
+    },
+    {
+        "model": "authentication.employee",
+        "pk": "DKJFJO1K2",
+        "fields": {
+            "fullName": "Chí Phèo",
+            "phoneNumber": "0967566712",
+            "gender": "Nam",
+            "yearOfBirth": 2003,
+            "hireDate": "2024-02-20",
+            "is_active": true
+        }
+    }
+]

@@ -1,0 +1,62 @@
+[
+    {
+        "model": "sales.paymentdetail",
+        "pk": 1,
+        "fields": {
+            "quantity": 100,
+            "unitPrice": 105000.00,
+            "medicine": "798E63U16",
+            "payment": "PPJ9DNBL7"
+        }
+    },
+    {
+        "model": "sales.paymentdetail",
+        "pk": 2,
+        "fields": {
+            "quantity": 110,
+            "unitPrice": 180000.00,
+            "medicine": "745KCI1KX",
+            "payment": "RXPXRWR36"
+        }
+    },
+    {
+        "model": "sales.paymentdetail",
+        "pk": 3,
+        "fields": {
+            "quantity": 200,
+            "unitPrice": 30000.00,
+            "medicine": "XRBIFO4BZ",
+            "payment": "ZQKV59121"
+        }
+    },
+    {
+        "model": "sales.paymentdetail",
+        "pk": 4,
+        "fields": {
+            "quantity": 500,
+            "unitPrice": 4000.00,
+            "medicine": "XRZXFO4BZ",
+            "payment": "C45PX5VYN"
+        }
+    },
+    {
+        "model": "sales.paymentdetail",
+        "pk": 5,
+        "fields": {
+            "quantity": 300,
+            "unitPrice": 250000.00,
+            "medicine": "VFZCHLHIE",
+            "payment": "C45PX5VYN"
+        }
+    },
+    {
+        "model": "sales.paymentdetail",
+        "pk": 6,
+        "fields": {
+            "quantity": 100,
+            "unitPrice": 95000.00,
+            "medicine": "ESMJMM7T1",
+            "payment": "A4B3VKX8V"
+        }
+    }
+]

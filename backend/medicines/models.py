@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Catalog(models.Model):
-    catalogID = models.AutoField(primary_key=True)
+    catalogID = models.CharField(max_length=50, primary_key=True)
     catalogName = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
@@ -10,7 +10,7 @@ class Catalog(models.Model):
     
 
 class Unit(models.Model):
-    unitID = models.AutoField(primary_key=True)
+    unitID = models.CharField(max_length=50, primary_key=True)
     unitName = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
@@ -18,7 +18,7 @@ class Unit(models.Model):
     
 
 class Origin(models.Model):
-    originID = models.AutoField(primary_key=True)
+    originID = models.CharField(max_length=50, primary_key=True)
     originName = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
@@ -26,7 +26,7 @@ class Origin(models.Model):
     
 
 class Medicine(models.Model):
-    medicineID = models.AutoField(primary_key=True)
+    medicineID = models.CharField(max_length=50, primary_key=True)
     medicineName = models.CharField(max_length=255)
     image = models.ImageField(upload_to='medicines/', null=True, blank=True)
     ingredients = models.TextField()
@@ -36,13 +36,13 @@ class Medicine(models.Model):
     stockQuantity = models.PositiveIntegerField(default=0)
     importPrice = models.DecimalField(max_digits=10, decimal_places=2)
     unitPrice = models.DecimalField(max_digits=10, decimal_places=2)
-
+    expiryDate = models.DateField(null=True, blank=True)
     def __str__(self):
         return self.medicineName
     
 
 class Supplier(models.Model):
-    supplierID = models.AutoField(primary_key=True)
+    supplierID = models.CharField(max_length=50, primary_key=True)
     supplierName = models.CharField(max_length=255, unique=True)
     phoneNumber = models.CharField(max_length=15, unique=True)
     address = models.TextField()

@@ -2,10 +2,11 @@ from django.db import models
 
 
 class Order(models.Model):
-    orderID = models.AutoField(primary_key=True)
+    orderID = models.CharField(max_length=50, primary_key=True)
     orderTime = models.DateTimeField(auto_now_add=True)
     employee = models.ForeignKey('authentication.Employee', on_delete=models.CASCADE)
     customer = models.ForeignKey('authentication.Customer', on_delete=models.CASCADE)
+    totalAmount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Thêm thuộc tính tổng tiền
 
     def __str__(self):
         return f'Order {self.orderID}'
@@ -43,10 +44,11 @@ class InvoiceDetail(models.Model):
         unique_together = ('invoice', 'medicine') # Mỗi hóa đơn chỉ có 1 loại thuốc xuất hiện 1 lần
 
 class Payment(models.Model):
-    paymentID = models.AutoField(primary_key=True)
+    paymentID = models.CharField(max_length=50, primary_key=True)
     paymentTime = models.DateTimeField(auto_now_add=True)
     employee = models.ForeignKey('authentication.Employee', on_delete=models.CASCADE)
     supplier = models.ForeignKey('medicines.Supplier', on_delete=models.CASCADE)
+    totalAmount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Thêm thuộc tính tổng tiền
 
     def __str__(self):
         return f'Payment {self.paymentID}'    
