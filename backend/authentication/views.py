@@ -51,15 +51,6 @@ class MeView(APIView):
             "employee": EmployeeSerializer(user.employee).data if user.employee else None
         })
     
-class RegisterUserView(APIView):
-    permission_classes = [IsAuthenticated, IsAdminSystem]
-
-    def post(self, request):
-        serializer = AccountSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        return Response({"message": "Tạo tài khoản thành công", "username": user.username}, status=status.HTTP_201_CREATED)
-    
 class ResetPasswordView(APIView):
     permission_classes = [IsAuthenticated, IsAdminSystem]
 
@@ -89,6 +80,17 @@ class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
     permission_classes = [IsAuthenticated, IsAdminSystem]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response({"message": "Tạo tài khoản thành công", "username": serializer.data['username']}, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        serializer.save()
+
 
 # Quản lý phân quyền (CRUD)
 class RoleViewSet(viewsets.ModelViewSet):

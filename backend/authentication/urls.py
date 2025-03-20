@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter, SimpleRouter
-from .views import EmployeeViewSet, AccountViewSet, RoleViewSet, StatisticViewSet, EmployeeStatisticViewSet, LoginView, LogoutView, MeView, RegisterUserView, ResetPasswordView
+from .views import EmployeeViewSet, AccountViewSet, RoleViewSet, StatisticViewSet, EmployeeStatisticViewSet, LoginView, LogoutView, MeView, ResetPasswordView
 
 # Router cho CRUD (có sẵn các phương thức GET, POST, PUT, DELETE)
 router = DefaultRouter()
@@ -20,6 +20,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('me/', MeView.as_view(), name='me'),
-    path('admin/register-user/', RegisterUserView.as_view(), name='register'),
     path('admin/reset-password/', ResetPasswordView.as_view(), name='reset-password'),
 ]

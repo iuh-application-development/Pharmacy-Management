@@ -7,15 +7,17 @@ class Role(models.Model):
     PRODUCT_MANAGER = 'Product_manager'
     
     ROLE_CHOICES = [
-        ('Admin', 'Admin'),
-        ('Sales', 'Nhân viên bán hàng'),
-        ('Product_manager', 'Nhân viên quản lý sản phẩm'),
+        (ADMIN, 'Admin'),
+        (SALES, 'Nhân viên bán hàng'),
+        (PRODUCT_MANAGER, 'Nhân viên quản lý sản phẩm'),
     ]
-    roleID = models.CharField(max_length=50, primary_key=True)
+
+    roleID = models.AutoField(primary_key=True)
     roleName = models.CharField(max_length=50, choices=ROLE_CHOICES, unique=True)
 
     def __str__(self):
-        return self.roleName
+        return self.get_roleName_display()
+
     
 
 class Employee(models.Model):
