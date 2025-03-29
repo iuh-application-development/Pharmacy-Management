@@ -1,3 +1,4 @@
+
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter, SimpleRouter
 from .views import EmployeeViewSet, AccountViewSet, RoleViewSet, LoginView, LogoutView, MeView, ResetPasswordView
@@ -7,6 +8,7 @@ router = DefaultRouter()
 router.register('employees', EmployeeViewSet, basename='employee')
 router.register('accounts', AccountViewSet, basename='account')
 router.register('roles', RoleViewSet, basename='role')
+
 
 # urls: /api/auth/
 urlpatterns = [
