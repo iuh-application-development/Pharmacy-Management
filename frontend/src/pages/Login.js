@@ -88,19 +88,23 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8000/api/auth/login/', { username, password });
-      const { token, role } = response.data;
+      const { token, role, employeeName } = response.data;
+      
+      // Lưu thông tin vào localStorage
       localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      localStorage.setItem('employeeName', employeeName);
+
+      // Chuyển hướng dựa trên role
       if (role === 'Admin') {
         navigate('/dashboard');
       } else if (role === 'Nhân viên bán hàng') {
-        navigate('/sales-dashboard');
-      } else if (role === 'Nhân viên quản lý sản phẩm') {
-        navigate('/product-manager-dashboard');
+        navigate('/employee-dashboard');
       } else {
         navigate('/');
       }
     } catch (err) {
-      setError('Invalid username or password.');
+      setError('Tên đăng nhập hoặc mật khẩu không đúng');
     }
   };
 
