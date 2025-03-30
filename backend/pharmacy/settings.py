@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pharmacydb',  
         'USER': 'postgres',  
-        'PASSWORD': 'vkhoa', 
+        'PASSWORD': '123456', 
         'HOST': 'localhost',
         'PORT': '5432',  
     }
@@ -145,4 +145,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
