@@ -93,7 +93,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pharmacydb',  
         'USER': 'postgres',  
-        'PASSWORD': '123456', 
+        'PASSWORD': 'vkhoa', 
         'HOST': 'localhost',
         'PORT': '5432',  
     }

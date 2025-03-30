@@ -1,21 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink, useNavigate} from 'react-router-dom';
-import { BiHome, BiFile, BiUser, BiPackage, BiLock, BiLogOut, BiStats } from 'react-icons/bi';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { BiHome, BiFile, BiPackage, BiLogOut } from 'react-icons/bi';
 import axios from 'axios';
 
 const SidebarContainer = styled.div`
-  position: fixed; /* Sidebar cố định */
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100vh; /* Chiều cao toàn màn hình */
-  width: 250px; /* Độ rộng sidebar */
+  height: 100vh;
+  width: 250px;
   background-color: #1e293b;
   color: #fff;
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  z-index: 1000; /* Đảm bảo sidebar nằm trên các nội dung khác */
+  z-index: 1000;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 `;
 
@@ -60,7 +60,7 @@ const MenuItem = styled(NavLink)`
   margin-bottom: 0.5rem;
 
   &.active {
-    background-color:rgb(25, 231, 121);
+    background-color: rgb(25, 231, 121);
   }
 
   &:hover {
@@ -86,59 +86,46 @@ const LogoutButton = styled.div`
   }
 `;
 
-const Sidebar = () => {
-  const navigate = useNavigate(); // Khởi tạo useNavigate
+const EmployeeSidebar = () => {
+  const navigate = useNavigate();
+  const employeeName = localStorage.getItem('employeeName') || 'Nhân viên';
+  const role = localStorage.getItem('role') || 'Nhân viên bán hàng';
 
   const handleLogout = async () => {
     try {
-      // Gửi yêu cầu logout đến backend (nếu cần)
       const token = localStorage.getItem('token');
       await axios.post('http://localhost:8000/api/auth/logout/', {}, {
         headers: { Authorization: `Token ${token}` },
       });
-
-      // Xóa token khỏi localStorage
       localStorage.removeItem('token');
-
-      // Chuyển hướng đến trang Login
+      localStorage.removeItem('employeeName');
+      localStorage.removeItem('role');
       navigate('/login');
     } catch (error) {
       console.error('Error during logout:', error);
-      // Dù có lỗi, vẫn chuyển hướng đến trang Login
       navigate('/login');
     }
   };
+
   return (
     <SidebarContainer>
       <ProfileSection>
-        <Avatar src="https://png.pngtree.com/png-clipart/20200721/original/pngtree-customer-service-free-avatar-user-icon-business-user-icon-users-group-png-image_4823037.jpg" alt="Admin Avatar" />
+        <Avatar src="https://png.pngtree.com/png-clipart/20200721/original/pngtree-customer-service-free-avatar-user-icon-business-user-icon-users-group-png-image_4823037.jpg" alt="Employee Avatar" />
         <ProfileInfo>
-          <Name>Admin</Name>
-          <Role>Admin</Role>
+          <Name>{employeeName}</Name>
+          <Role>{role}</Role>
         </ProfileInfo>
       </ProfileSection>
 
       <Menu>
-        <MenuItem to="/dashboard" activeClassName="active">
+        <MenuItem to="/employee-dashboard" activeClassName="active">
           <BiHome /> Trang Chủ
         </MenuItem>
-        <MenuItem to="/orders" activeClassName="active">
-          <BiFile /> Đơn Đặt Hàng
+        <MenuItem to="/employee/orders" activeClassName="active">
+          <BiFile /> Đơn Hàng
         </MenuItem>
-        <MenuItem to="/medicines" activeClassName="active">
+        <MenuItem to="/employee/medicines" activeClassName="active">
           <BiPackage /> Thuốc
-        </MenuItem>
-        <MenuItem to="/suppliers" activeClassName="active">
-          <BiPackage /> Nhà Cung Cấp
-        </MenuItem>
-        <MenuItem to="/employees" activeClassName="active">
-          <BiUser /> Nhân Viên
-        </MenuItem>
-        <MenuItem to="/employeeStats" activeClassName="active">
-          <BiStats /> Thống Kê Nhân Viên
-        </MenuItem>
-        <MenuItem to="/accounts" activeClassName="active">
-          <BiLock /> Tài Khoản
         </MenuItem>
       </Menu>
 
@@ -149,4 +136,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default EmployeeSidebar; 
