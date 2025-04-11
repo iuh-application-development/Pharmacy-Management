@@ -8,6 +8,8 @@ import Medicines from './pages/Medicines/Medicines';
 import Suppliers from './pages/Suppliers/Suppliers';
 import Accounts from './pages/Accounts/Accounts';
 import Orders from './pages/Orders/Orders';
+import Invoices from './pages/Invoices/Invoices'; 
+import Reports from './pages/Reports/Reports';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/suppliers" element={<Suppliers />} />
         <Route path="/accounts" element={<Accounts />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/invoices" element={<Invoices />} />
+        <Route path="/reports" element={<Reports />} />
       </Routes>
     </Router>
   );

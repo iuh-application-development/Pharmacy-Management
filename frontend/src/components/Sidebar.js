@@ -122,6 +122,12 @@ const Sidebar = () => {
         <MenuItem to="/dashboard" activeClassName="active">
           <BiHome /> Trang Chủ
         </MenuItem>
+        <MenuItem to="/reports" activeClassName="active">
+          <BiFile /> Báo Cáo
+        </MenuItem>
+        <MenuItem to="/invoices" activeClassName="active">
+          <BiFile /> Hóa Đơn
+        </MenuItem>
         <MenuItem to="/orders" activeClassName="active">
           <BiFile /> Đơn Đặt Hàng
         </MenuItem>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { saveAs } from 'file-saver';
 import Sidebar from '../../components/Sidebar';
+import * as XLSX from 'xlsx';
 import {
   Container,
   Content,
@@ -57,6 +59,15 @@ const Medicines = () => {
       medicine.medicineID.toLowerCase().includes(keyword)
     );
     setFilteredMedicines(filtered);
+  };
+
+  const handleDownloadExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredMedicines);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Medicines');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(data, 'Medicines.xlsx');
   };
 
   const generateMedicineID = () => {
@@ -175,6 +186,7 @@ const Medicines = () => {
               value={searchKeyword}
               onChange={handleSearch}
             />
+            <Button onClick={handleDownloadExcel}>Tải xuống</Button>
           </div>
         </Toolbar>
 

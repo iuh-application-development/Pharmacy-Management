@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from '../../components/Sidebar';
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
 import {
   Container,
   Content,
@@ -50,6 +52,15 @@ const Suppliers = () => {
     );
 
     setFilteredSuppliers(filtered);
+  };
+
+  const handleDownloadExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredSuppliers);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Suppliers');
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(data, 'Suppliers.xlsx');
   };
 
   const generateSupplierID = () => {
@@ -133,6 +144,8 @@ const Suppliers = () => {
               value={searchKeyword}
               onChange={handleSearch}
             />
+            <Button onClick={handleDownloadExcel}>Tải xuống</Button>
+
           </div>
         </Toolbar>
 
