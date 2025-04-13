@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink, useNavigate} from 'react-router-dom';
-import { BiHome, BiFile, BiUser, BiPackage, BiLock, BiLogOut, BiStats } from 'react-icons/bi';
+import { BiHome, BiFile, BiUser, BiPackage, BiLock, BiLogOut } from 'react-icons/bi';
 import axios from 'axios';
 
 const SidebarContainer = styled.div`
@@ -122,6 +122,12 @@ const Sidebar = () => {
         <MenuItem to="/dashboard" activeClassName="active">
           <BiHome /> Trang Chủ
         </MenuItem>
+        <MenuItem to="/reports" activeClassName="active">
+          <BiFile /> Báo Cáo
+        </MenuItem>
+        <MenuItem to="/invoices" activeClassName="active">
+          <BiFile /> Hóa Đơn
+        </MenuItem>
         <MenuItem to="/orders" activeClassName="active">
           <BiFile /> Đơn Đặt Hàng
         </MenuItem>
@@ -134,12 +140,10 @@ const Sidebar = () => {
         <MenuItem to="/employees" activeClassName="active">
           <BiUser /> Nhân Viên
         </MenuItem>
-        <MenuItem to="/employeeStats" activeClassName="active">
-          <BiStats /> Thống Kê Nhân Viên
-        </MenuItem>
         <MenuItem to="/accounts" activeClassName="active">
           <BiLock /> Tài Khoản
         </MenuItem>
+        
       </Menu>
 
       <LogoutButton onClick={handleLogout}>

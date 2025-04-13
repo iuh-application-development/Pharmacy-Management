@@ -11,32 +11,6 @@ export const Content = styled.div`
   padding: 1rem;
 `;
 
-export const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-`;
-
-export const StatCard = styled.div`
-  background-color: #0f172a;
-  color: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-`;
-
-export const StatTitle = styled.h3`
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-`;
-
-export const StatValue = styled.p`
-  font-size: 1.5rem;
-  font-weight: bold;
-`;
-
 export const Toolbar = styled.div`
   display: flex;
   justify-content: space-between;
@@ -83,6 +57,13 @@ export const TableCell = styled.td`
   padding: 0.5rem;
 `;
 
+export const genderMap = {
+  Male: 'Nam',
+  Female: 'Nữ',
+  Nam: 'Nam',
+  Nữ: 'Nữ',
+};
+
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -105,10 +86,3 @@ export const Select = styled.select`
   border: 1px solid #ddd;
   border-radius: 4px;
 `;
-
-export const genderMap = {
-  Male: 'Nam',
-  Female: 'Nữ',
-  Nam: 'Nam',
-  Nữ: 'Nữ',
-};
