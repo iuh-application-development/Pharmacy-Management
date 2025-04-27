@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from '../../components/Sidebar';
+import { FaPlus, FaDownload } from 'react-icons/fa';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import {
@@ -29,7 +30,7 @@ const Suppliers = () => {
   const [editingSupplierID, setEditingSupplierID] = useState(null);
 
   const fetchSuppliers = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -71,7 +72,7 @@ const Suppliers = () => {
   
   const handleAddOrUpdateSupplier = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
   
     try {
@@ -114,7 +115,7 @@ const Suppliers = () => {
     const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa nhà cung cấp này?');
     if (!confirmDelete) return;
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -135,7 +136,9 @@ const Suppliers = () => {
       <Content>
         <Toolbar>
           <div>
-            <Button onClick={() => { setShowForm(!showForm); setEditingSupplierID(null); }}>THÊM</Button>
+            <Button onClick={() => { setShowForm(!showForm); setEditingSupplierID(null); }}>
+            <FaPlus style={{ marginRight: '0.5rem' }} /> THÊM
+            </Button>
           </div>
           <div>
             <SearchInput
@@ -144,7 +147,9 @@ const Suppliers = () => {
               value={searchKeyword}
               onChange={handleSearch}
             />
-            <Button onClick={handleDownloadExcel}>Tải xuống</Button>
+            <Button onClick={handleDownloadExcel}>
+            <FaDownload style={{ marginRight: '0.5rem' }} /> Tải xuống
+            </Button>
 
           </div>
         </Toolbar>
@@ -165,14 +170,19 @@ const Suppliers = () => {
               onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
               required
             />
-            <Input
-              type="text"
-              placeholder="Địa chỉ"
-              value={form.address}
-              onChange={(e) => setForm({ ...form, address: e.target.value })}
-              required
-            />
-            <Button type="submit">{editingSupplierID ? 'Cập nhật' : 'Thêm mới'}</Button>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <Button type="submit">{editingSupplierID ? 'Cập nhật' : 'Thêm mới'}</Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  setShowForm(false);
+                  setForm({ supplierName: '', phoneNumber: '', address: '' });
+                  setEditingSupplierID(null);
+                }}
+              >
+                Hủy
+              </Button>
+            </div>
           </Form>
         )}
 
@@ -196,7 +206,7 @@ const Suppliers = () => {
                 <TableCell>{supplier.address}</TableCell>
                 <TableCell>
                   <Button onClick={() => handleEditSupplier(supplier)}>Sửa</Button>
-                  <Button onClick={() => handleDeleteSupplier(supplier.supplierID)}>Xóa</Button>
+                  <Button onClick={() => handleDeleteSupplier(supplier.supplierID)}style={{ marginLeft: '0.25rem' }}>Xóa</Button>
                 </TableCell>
               </tr>
             ))}

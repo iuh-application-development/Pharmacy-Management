@@ -6,6 +6,7 @@ from sales.models import Payment, PaymentDetail
 from .serializers import MedicineSerializer, SupplierSerializer, PaymentSerializer, PaymentDetailSerializer
 from authentication.permissions import IsProductManager
 from django.db.models import Sum
+from authentication.permissions import IsSales, IsProductManager
 
 # Lập hóa đơn phiếu thu
 class PaymentViewSet(viewsets.ModelViewSet):
@@ -17,7 +18,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
 class MedicineViewSet(viewsets.ModelViewSet):
     queryset = Medicine.objects.all()
     serializer_class = MedicineSerializer
-    permission_classes = [IsAuthenticated, IsProductManager]
+    permission_classes = [IsAuthenticated, IsSales | IsProductManager]
 
 # Tìm kiếm, quản lý nhà cung cấp
 class SupplierViewSet(viewsets.ModelViewSet):
