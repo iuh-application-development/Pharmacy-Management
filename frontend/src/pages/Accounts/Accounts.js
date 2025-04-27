@@ -166,8 +166,8 @@ const Accounts = () => {
               required
             >
               <option value="">Chọn quyền</option>
-              <option value="1">Nhân viên bán hàng</option>
-              <option value="2">Nhân viên quản lý sản phẩm</option>
+              <option value="2">Nhân viên bán hàng</option>
+              <option value="3">Nhân viên quản lý sản phẩm</option>
             </Select>
             <Input
               type="text"
