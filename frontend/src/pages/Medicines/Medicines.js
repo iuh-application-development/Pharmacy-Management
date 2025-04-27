@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import Sidebar from '../../components/Sidebar';
+import { FaPlus, FaDownload } from 'react-icons/fa';
 import * as XLSX from 'xlsx';
 import {
   Container,
@@ -17,6 +18,7 @@ import {
   catalogMap,
   originMap,
   unitMap,
+  ActionButton,
 } from './MedicinesStyles';
 
 const Medicines = () => {
@@ -39,7 +41,7 @@ const Medicines = () => {
   const [editingMedicineID, setEditingMedicineID] = useState(null);
 
   const fetchMedicines = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -78,7 +80,7 @@ const Medicines = () => {
 
   const handleAddOrUpdateMedicine = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -156,7 +158,7 @@ const Medicines = () => {
     const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa thuốc này?');
     if (!confirmDelete) return;
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -177,7 +179,7 @@ const Medicines = () => {
       <Content>
         <Toolbar>
           <div>
-            <Button onClick={() => { setShowForm(!showForm); setEditingMedicineID(null); }}>THÊM</Button>
+            <Button onClick={() => { setShowForm(!showForm); setEditingMedicineID(null); }}><FaPlus style={{ marginRight: '0.5rem' }} /> THÊM</Button>
           </div>
           <div>
             <Input
@@ -186,7 +188,10 @@ const Medicines = () => {
               value={searchKeyword}
               onChange={handleSearch}
             />
-            <Button onClick={handleDownloadExcel}>Tải xuống</Button>
+            <Button onClick={handleDownloadExcel}>
+              <FaDownload style={{ marginRight: '0.5rem' }} />
+                Tải xuống
+            </Button>
           </div>
         </Toolbar>
 
@@ -275,7 +280,30 @@ const Medicines = () => {
                 </option>
               ))}
             </Select>
-            <Button type="submit">{editingMedicineID ? 'Cập nhật' : 'Thêm mới'}</Button>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <Button type="submit">{editingMedicineID ? 'Cập nhật' : 'Thêm mới'}</Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  setShowForm(false);
+                  setForm({
+                    medicineName: '',
+                    ingredients: '',
+                    stockQuantity: '',
+                    importPrice: '',
+                    unitPrice: '',
+                    expiryDate: '',
+                    unit: '',
+                    catalog: '',
+                    origin: '',
+                  });
+                  setImageFile(null);
+                  setEditingMedicineID(null);
+                }}
+              >
+                Hủy
+              </Button>
+            </div>
           </Form>
         )}
 
@@ -310,8 +338,8 @@ const Medicines = () => {
                 <TableCell>{medicine.unitPrice.toLocaleString()} VND</TableCell>
                 <TableCell>{medicine.expiryDate}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleEditMedicine(medicine)}>Sửa</Button>
-                  <Button onClick={() => handleDeleteMedicine(medicine.medicineID)}>Xóa</Button>
+                  <ActionButton onClick={() => handleEditMedicine(medicine)}>Sửa</ActionButton>
+                  <ActionButton onClick={() => handleDeleteMedicine(medicine.medicineID)}>Xóa</ActionButton>
                 </TableCell>
               </tr>
             ))}

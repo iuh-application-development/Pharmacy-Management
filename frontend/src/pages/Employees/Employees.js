@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from '../../components/Sidebar';
+import { FaUserPlus, FaSearch } from 'react-icons/fa';
 import {
   Container,
   Content,
@@ -32,7 +33,7 @@ const Employees = () => {
 
   // Fetch danh sách nhân viên
   const fetchEmployees = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
     try {
       const response = await axios.get('http://localhost:8000/api/auth/employees/', { headers });
@@ -66,7 +67,7 @@ const Employees = () => {
   // Thêm nhân viên mới
   const handleAddEmployee = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
     const employeeID = generateEmployeeID();
     try {
@@ -96,7 +97,7 @@ const Employees = () => {
   // Cập nhật thông tin nhân viên
   const handleUpdateEmployee = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
   
     try {
@@ -129,7 +130,7 @@ const Employees = () => {
     const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa nhân viên này?');
     if (!confirmDelete) return;
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
     try {
       await axios.delete(`http://localhost:8000/api/auth/employees/${employeeID}/`, { headers });
@@ -148,8 +149,10 @@ const Employees = () => {
       <Sidebar />
       <Content>
         <Toolbar>
-          <div>
-            <Button onClick={() => { setShowForm(!showForm); setEditingEmployeeID(null); }}>THÊM</Button>
+        <div>
+            <Button onClick={() => { setShowForm(!showForm); setEditingEmployeeID(null); }}>
+              <FaUserPlus /> Thêm Nhân viên
+            </Button>
           </div>
           <div>
             <SearchInput
@@ -158,6 +161,7 @@ const Employees = () => {
               value={searchKeyword}
               onChange={handleSearch}
             />
+            <FaSearch style={{ marginLeft: '0.5rem', color: '#374151' }} />
           </div>
         </Toolbar>
 
@@ -200,8 +204,20 @@ const Employees = () => {
               onChange={(e) => setForm({ ...form, hireDate: e.target.value })}
               required
             />
-            <Button type="submit">{editingEmployeeID ? 'Cập nhật' : 'Thêm nhân viên'}</Button>
-          </Form>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+                  <Button type="submit">{editingEmployeeID ? 'Cập nhật' : 'Thêm nhân viên'}</Button>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      setShowForm(false);
+                      setForm({ fullName: '', phoneNumber: '', gender: '', yearOfBirth: '', hireDate: '' });
+                      setEditingEmployeeID(null);
+                    }}
+                  >
+                    Hủy
+                  </Button>
+                </div>
+              </Form>
         )}
 
         <h2>DANH SÁCH THÔNG TIN NHÂN VIÊN</h2>
@@ -230,7 +246,7 @@ const Employees = () => {
                 <TableCell>{employee.hireDate}</TableCell>
                 <TableCell>
                   <Button onClick={() => handleEditEmployee(employee)}>Sửa</Button>
-                  <Button onClick={() => handleDeleteEmployee(employee.employeeID)}>Xóa</Button>
+                  <Button onClick={() => handleDeleteEmployee(employee.employeeID)}style={{ marginLeft: '0.5rem' }}>Xóa</Button>
                 </TableCell>
               </tr>
             ))}

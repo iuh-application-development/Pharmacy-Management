@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  background-color: #f3f4f6; /* Màu nền tổng thể */
+  background-color: #f3f4f6; /* Màu nền tổng thể nhẹ nhàng */
   font-family: 'Roboto', sans-serif; /* Phông chữ chuyên nghiệp */
 `;
 
@@ -19,7 +19,7 @@ export const Toolbar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 `;
 
 export const Button = styled.button`
@@ -28,9 +28,9 @@ export const Button = styled.button`
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
+  cursor: pointer;
   font-size: 0.9rem;
   font-weight: 600;
-  cursor: pointer;
   transition: background-color 0.3s ease;
 
   &:hover {
@@ -57,7 +57,7 @@ export const Table = styled.table`
 `;
 
 export const TableHeader = styled.th`
-  background-color: rgb(6, 150, 102); /* Màu xanh đậm */
+  background-color: #059669; /* Màu xanh đậm */
   color: #ffffff;
   padding: 1rem;
   text-align: left;
@@ -69,25 +69,14 @@ export const TableCell = styled.td`
   padding: 1rem;
   font-size: 0.9rem;
   color: #374151; /* Màu chữ xám đậm */
-
-  &:hover {
-    background-color: #f9fafb; /* Hiệu ứng hover */
-  }
 `;
-
-export const genderMap = {
-  Male: 'Nam',
-  Female: 'Nữ',
-  Nam: 'Nam',
-  Nữ: 'Nữ',
-};
 
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 2rem;
-  padding: 2rem;
+  padding: 1.5rem;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   background-color: #f9fafb;
@@ -99,7 +88,6 @@ export const Input = styled.input`
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   font-size: 0.9rem;
-  color: #374151;
 `;
 
 export const Select = styled.select`
@@ -107,5 +95,4 @@ export const Select = styled.select`
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   font-size: 0.9rem;
-  color: #374151;
 `;

@@ -9,6 +9,7 @@ from .models import Employee, Account, Role
 from .serializers import EmployeeSerializer, AccountSerializer, RoleSerializer, LoginSerializer
 from .permissions import IsAdminSystem
 from sales.models import OrderDetail, PaymentDetail
+from .permissions import IsAdminSystem, IsSales, IsProductManager
 
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
@@ -73,7 +74,7 @@ class ResetPasswordView(APIView):
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-    permission_classes = [IsAuthenticated, IsAdminSystem]
+    permission_classes = [IsAuthenticated, IsAdminSystem | IsSales | IsProductManager]
 
 # Quản lý tài khoản nhân viên (CRUD)
 class AccountViewSet(viewsets.ModelViewSet):

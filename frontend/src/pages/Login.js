@@ -89,7 +89,8 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:8000/api/auth/login/', { username, password });
       const { token, role } = response.data;
-      localStorage.setItem('token', token);
+      sessionStorage.setItem('token', token);
+      sessionStorage.setItem('role', role);
       if (role === 'Admin') {
         navigate('/dashboard');
       } else if (role === 'Nhân viên bán hàng') {

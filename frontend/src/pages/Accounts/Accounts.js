@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sidebar from '../../components/Sidebar';
+import { FaPlus } from 'react-icons/fa';
 import {
   Container,
   Content,
@@ -29,8 +30,9 @@ const Accounts = () => {
   });
   const [editingAccountID, setEditingAccountID] = useState(null);
 
+  // Fetch danh sách tài khoản
   const fetchAccounts = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -42,6 +44,7 @@ const Accounts = () => {
     }
   };
 
+  // Xử lý tìm kiếm
   const handleSearch = (e) => {
     const keyword = e.target.value.toLowerCase();
     setSearchKeyword(keyword);
@@ -57,17 +60,16 @@ const Accounts = () => {
     setFilteredAccounts(filtered);
   };
 
+  // Xử lý thêm hoặc cập nhật tài khoản
   const handleAddOrUpdateAccount = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
       if (editingAccountID) {
-        // Update account
         await axios.put(`http://localhost:8000/api/auth/accounts/${editingAccountID}/`, form, { headers });
       } else {
-        // Add new account
         await axios.post('http://localhost:8000/api/auth/accounts/', form, { headers });
       }
       setForm({ username: '', password: '', role: '', employee: '' });
@@ -79,10 +81,11 @@ const Accounts = () => {
     }
   };
 
+  // Xử lý chỉnh sửa tài khoản
   const handleEditAccount = (account) => {
     setForm({
       username: account.username,
-      password: '', // Do not prefill password
+      password: '', // Không điền trước mật khẩu
       role: account.role,
       employee: account.employee,
     });
@@ -90,11 +93,12 @@ const Accounts = () => {
     setEditingAccountID(account.accountID);
   };
 
+  // Xử lý xóa tài khoản
   const handleDeleteAccount = async (accountID) => {
     const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa tài khoản này?');
     if (!confirmDelete) return;
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -105,8 +109,9 @@ const Accounts = () => {
     }
   };
 
+  // Xử lý kích hoạt/vô hiệu hóa tài khoản
   const handleToggleAccountStatus = async (accountID, currentStatus) => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -127,7 +132,7 @@ const Accounts = () => {
       <Content>
         <Toolbar>
           <div>
-            <Button onClick={() => { setShowForm(!showForm); setEditingAccountID(null); }}>THÊM</Button>
+            <Button onClick={() => { setShowForm(!showForm); setEditingAccountID(null); }}><FaPlus /> THÊM</Button>
           </div>
           <div>
             <SearchInput
@@ -153,7 +158,7 @@ const Accounts = () => {
               placeholder="Mật khẩu"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              required={!editingAccountID} // Password is required only for new accounts
+              required={!editingAccountID}
             />
             <Select
               value={form.role}
@@ -170,7 +175,19 @@ const Accounts = () => {
               value={form.employee}
               onChange={(e) => setForm({ ...form, employee: e.target.value })}
             />
-            <Button type="submit">{editingAccountID ? 'Cập nhật tài khoản' : 'Tạo tài khoản'}</Button>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <Button type="submit">{editingAccountID ? 'Cập nhật tài khoản' : 'Tạo tài khoản'}</Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  setShowForm(false);
+                  setForm({ username: '', password: '', role: '', employee: '' });
+                  setEditingAccountID(null);
+                }}
+              >
+                Hủy
+              </Button>
+            </div>
           </Form>
         )}
 
@@ -196,8 +213,8 @@ const Accounts = () => {
                 <TableCell>{account.is_active ? 'Hoạt động' : 'Vô hiệu'}</TableCell>
                 <TableCell>
                   <Button onClick={() => handleEditAccount(account)}>Sửa</Button>
-                  <Button onClick={() => handleDeleteAccount(account.accountID)}>Xóa</Button>
-                  <Button onClick={() => handleToggleAccountStatus(account.accountID, account.is_active)}>
+                  <Button onClick={() => handleDeleteAccount(account.accountID)}style={{ marginLeft: '0.25rem' }}>Xóa</Button>
+                  <Button onClick={() => handleToggleAccountStatus(account.accountID, account.is_active)}style={{ marginLeft: '0.25rem' }}>
                     {account.is_active ? 'Vô hiệu hóa' : 'Kích hoạt'}
                   </Button>
                 </TableCell>

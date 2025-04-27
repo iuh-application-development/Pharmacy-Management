@@ -29,7 +29,7 @@ const Orders = () => {
   const [editingOrderID, setEditingOrderID] = useState(null);
 
   const fetchOrders = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -42,7 +42,7 @@ const Orders = () => {
   };
 
   const fetchEmployees = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -54,7 +54,7 @@ const Orders = () => {
   };
 
   const fetchCustomers = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -86,7 +86,7 @@ const Orders = () => {
 
   const handleAddOrUpdateOrder = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -132,7 +132,7 @@ const Orders = () => {
     const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa đơn đặt hàng này?');
     if (!confirmDelete) return;
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {

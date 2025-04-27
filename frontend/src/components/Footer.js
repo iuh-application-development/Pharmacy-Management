@@ -1,101 +1,105 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { theme } from '../styles/theme';
 
 const FooterContainer = styled.footer`
-  background-color: ${theme.colors.primary};
-  color: ${theme.colors.white};
-  padding: 4rem 0 2rem;
-`;
-
-const FooterContent = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  background: #0f172a;
+  color: #ffffff;
+  padding: 2rem 4rem;
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
-`;
 
-const FooterSection = styled.div`
-  margin-bottom: 2rem;
-`;
-
-const FooterTitle = styled.h4`
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-`;
-
-const FooterLink = styled(Link)`
-  color: ${theme.colors.white};
-  text-decoration: none;
-  display: block;
-  margin-bottom: 0.8rem;
-  opacity: 0.8;
-  transition: opacity 0.3s ease;
-
-  &:hover {
-    opacity: 1;
+  @media (max-width: 768px) {
+    text-align: center;
+    gap: 1.5rem;
   }
 `;
 
-const FooterText = styled.p`
-  opacity: 0.8;
-  line-height: 1.6;
+const FooterSections = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 `;
 
-const Copyright = styled.div`
-  text-align: center;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+const FooterSection = styled.div`
+  flex: 1;
+  margin: 0 1rem;
+
+  @media (max-width: 768px) {
+    margin: 0;
+  }
+`;
+
+const FooterTitle = styled.h4`
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+`;
+
+const FooterText = styled.p`
+  font-size: 0.875rem;
   opacity: 0.8;
-  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+`;
+
+const FooterLink = styled.a`
+  display: block;
+  font-size: 0.875rem;
+  color: #ffffff;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+`;
+
+const FooterBottom = styled.div`
+  text-align: center;
+  font-size: 0.875rem;
+  opacity: 0.8;
+  border-top: 1px solid #374151;
+  padding-top: 1rem;
 `;
 
 const Footer = () => {
   return (
     <FooterContainer>
-      <FooterContent>
+      <FooterSections>
         <FooterSection>
-          <FooterTitle>Về chúng tôi</FooterTitle>
-          <FooterText>
-            PharmaCore cung cấp giải pháp quản lý hiệu quả cho các nhà thuốc và 
-            chuỗi dược phẩm, giúp tối ưu hóa quy trình kinh doanh.
-          </FooterText>
+          <FooterTitle>PharmaCore</FooterTitle>
+          <FooterText>Your favourite online pharmacy store. We offer onsite delivery and your health is our priority.</FooterText>
         </FooterSection>
-
         <FooterSection>
-          <FooterTitle>Liên kết</FooterTitle>
-          <FooterLink to="/about">Giới thiệu</FooterLink>
-          <FooterLink to="/features">Tính năng</FooterLink>
-          <FooterLink to="/pricing">Bảng giá</FooterLink>
-          <FooterLink to="/contact">Liên hệ</FooterLink>
+          <FooterTitle>Quick Links</FooterTitle>
+          <FooterLink href="/contact">Contact Us</FooterLink>
+          <FooterLink href="/about">About Us</FooterLink>
+          <FooterLink href="/careers">Careers</FooterLink>
         </FooterSection>
-
         <FooterSection>
-          <FooterTitle>Hỗ trợ</FooterTitle>
-          <FooterLink to="/faq">FAQ</FooterLink>
-          <FooterLink to="/support">Trung tâm hỗ trợ</FooterLink>
-          <FooterLink to="/documentation">Tài liệu hướng dẫn</FooterLink>
+          <FooterTitle>Services</FooterTitle>
+          <FooterLink href="/delivery">Delivery</FooterLink>
+          <FooterLink href="/purchase">Purchase</FooterLink>
+          <FooterLink href="/consult">Consult Specialist</FooterLink>
         </FooterSection>
-
         <FooterSection>
-          <FooterTitle>Liên hệ</FooterTitle>
-          <FooterText>
-            Email: support@pharmacore.com<br />
-            Điện thoại: (84) 123-456-789<br />
-            Địa chỉ: 123 Đường ABC, Quận XYZ<br />
-            TP. Hồ Chí Minh, Việt Nam
-          </FooterText>
+          <FooterTitle>Address</FooterTitle>
+          <FooterText>123 Main Street</FooterText>
+          <FooterText>City, Country</FooterText>
+          <FooterText>Phone: +1 234 567 890</FooterText>
+          <FooterText>Email: support@d-express.com</FooterText>
         </FooterSection>
-      </FooterContent>
-
-      <Copyright>
+      </FooterSections>
+      <FooterBottom>
         © {new Date().getFullYear()} PharmaCore. All rights reserved.
-      </Copyright>
+      </FooterBottom>
     </FooterContainer>
   );
 };

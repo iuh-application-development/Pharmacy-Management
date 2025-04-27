@@ -15,9 +15,10 @@ import {
   Button,
   Input,
   Select,
+  unitMap,
 } from './InvoicesStyles';
 
-const Invoices = () => {
+const CreateInvoice = () => {
   const [medicines, setMedicines] = useState([]);
   const [filteredMedicines, setFilteredMedicines] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -29,44 +30,44 @@ const Invoices = () => {
     phoneNumber: '',
     address: '',
     paymentMethod: 'Cash',
-    amountPaid: 0,
+    status: 'Paid',
+    gender: '',
   });
-  const [invoiceData, setInvoiceData] = useState(null); // Lưu thông tin hóa đơn
-  const [showInvoiceModal, setShowInvoiceModal] = useState(false); // Hiển thị modal in hóa đơn
+  const [invoiceData, setInvoiceData] = useState(null);
+  const [showInvoiceModal, setShowInvoiceModal] = useState(false);
 
-  // Lấy danh sách thuốc
-  const fetchMedicines = async () => {
-    const token = localStorage.getItem('token');
-    const headers = { Authorization: `Token ${token}` };
-
-    try {
-      const response = await axios.get('http://localhost:8000/api/medicines/medicines/', { headers });
-      setMedicines(response.data);
-      setFilteredMedicines(response.data); // Hiển thị tất cả thuốc ban đầu
-    } catch (error) {
-      console.error('Error fetching medicines:', error.response?.data || error.message);
-    }
-  };
-
+  // Fetch medicines from API
   useEffect(() => {
+    const fetchMedicines = async () => {
+      const token = sessionStorage.getItem('token');
+      const headers = { Authorization: `Token ${token}` };
+
+      try {
+        const response = await axios.get('http://localhost:8000/api/medicines/medicines/', { headers });
+        setMedicines(response.data);
+        setFilteredMedicines(response.data);
+      } catch (error) {
+        console.error('Error fetching medicines:', error.response?.data || error.message);
+      }
+    };
+
     fetchMedicines();
   }, []);
 
-  // Xử lý tìm kiếm thuốc
+  // Handle search
   const handleSearch = (e) => {
     const keyword = e.target.value.toLowerCase();
     setSearchKeyword(keyword);
-
-    const filtered = medicines.filter(
-      (medicine) =>
-        medicine.medicineName.toLowerCase().includes(keyword) ||
-        medicine.medicineID.toLowerCase().includes(keyword)
+    setFilteredMedicines(
+      medicines.filter(
+        (medicine) =>
+          medicine.medicineName.toLowerCase().includes(keyword) ||
+          medicine.medicineID.toLowerCase().includes(keyword)
+      )
     );
-
-    setFilteredMedicines(filtered);
   };
 
-  // Thêm thuốc vào giỏ hàng
+  // Add medicine to cart
   const handleAddToCart = () => {
     if (!selectedMedicine || quantity <= 0) return;
 
@@ -86,17 +87,17 @@ const Invoices = () => {
     setQuantity(1);
   };
 
-  // Xóa thuốc khỏi giỏ hàng
+  // Remove medicine from cart
   const handleRemoveFromCart = (medicineID) => {
     setCart(cart.filter((item) => item.medicineID !== medicineID));
   };
 
-  // Tính tổng hóa đơn
+  // Calculate total amount
   const calculateTotal = () => {
     return cart.reduce((total, item) => total + item.quantity * item.unitPrice, 0);
   };
 
-  // Sinh ngẫu nhiên customerID
+  // Generate unique customer ID
   const generateCustomerID = () => {
     const letters = Array.from({ length: 6 }, () =>
       String.fromCharCode(65 + Math.floor(Math.random() * 26))
@@ -105,9 +106,9 @@ const Invoices = () => {
     return `${letters}${numbers}`;
   };
 
-  // Xử lý thanh toán
+  // Handle checkout
   const handleCheckout = async () => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
     try {
@@ -116,37 +117,59 @@ const Invoices = () => {
         return;
       }
 
-      // Tạo khách hàng
-      const customerResponse = await axios.post(
-        'http://localhost:8000/api/sales/customers/',
-        {
-          customerID: generateCustomerID(),
-          fullName: form.customerName,
-          phoneNumber: form.phoneNumber,
-          gender: form.gender,
-          joinDate: new Date().toISOString().split('T')[0],
-        },
-        { headers }
-      );
-      const customerID = customerResponse.data.customerID;
+      // Check if customer exists
+      let customerID;
+      try {
+        const existingCustomerResponse = await axios.get(
+          `http://localhost:8000/api/sales/customers/`,
+          {
+            params: {
+              fullName: form.customerName.trim(),
+              phoneNumber: form.phoneNumber.trim(),
+            },
+            headers,
+          }
+        );
 
-      // Tạo hóa đơn
+        if (existingCustomerResponse.data.length > 0) {
+          // Sử dụng ID của khách hàng đã tồn tại
+          customerID = existingCustomerResponse.data[0].customerID;
+        } else {
+          // Tạo khách hàng mới nếu không tìm thấy
+          const customerResponse = await axios.post(
+            'http://localhost:8000/api/sales/customers/',
+            {
+              customerID: generateCustomerID(),
+              fullName: form.customerName.trim(),
+              phoneNumber: form.phoneNumber.trim(),
+              gender: form.gender,
+              joinDate: new Date().toISOString().split('T')[0],
+            },
+            { headers }
+          );
+          customerID = customerResponse.data.customerID;
+        }
+      } catch (error) {
+        console.error('Error checking or creating customer:', error.response?.data || error.message);
+        return;
+      }
+      // Create invoice
       const invoiceResponse = await axios.post(
         'http://localhost:8000/api/sales/invoices/',
         {
           customer: customerID,
           address: form.address,
           paymentMethod: form.paymentMethod,
-          status: 'Paid',
+          status: form.status,
         },
         { headers }
       );
       const invoiceID = invoiceResponse.data.invoiceID;
 
-      // Thêm chi tiết hóa đơn và cập nhật số lượng thuốc
+      // Add invoice details
       await Promise.all(
-        cart.map(async (item) => {
-          await axios.post(
+        cart.map((item) =>
+          axios.post(
             'http://localhost:8000/api/sales/invoice-details/',
             {
               invoice: invoiceID,
@@ -155,30 +178,31 @@ const Invoices = () => {
               unitPrice: item.unitPrice,
             },
             { headers }
-          );
-        })
+          )
+        )
       );
 
-      // Lưu thông tin hóa đơn vào state
-      const invoiceDetails = {
+      // Save invoice data and show modal
+      setInvoiceData({
         customerName: form.customerName,
         customerPhone: form.phoneNumber,
         address: form.address,
         paymentMethod: form.paymentMethod,
         medicines: cart,
         totalAmount: calculateTotal(),
-      };
-      setInvoiceData(invoiceDetails);
+      });
       setShowInvoiceModal(true);
 
-      // Reset form và giỏ hàng
+      // Reset form and cart
       setCart([]);
-      setForm({ customerName: '', phoneNumber: '', address: '', paymentMethod: 'Cash', amountPaid: 0 });
-
-      // Gọi in hóa đơn
-      setTimeout(() => {
-        window.print();
-      }, 500); // Đợi modal hiển thị trước khi in
+      setForm({
+        customerName: '',
+        phoneNumber: '',
+        address: '',
+        paymentMethod: 'Cash',
+        status: 'Paid',
+        gender: '',
+      });
     } catch (error) {
       console.error('Error during checkout:', error.response?.data || error.message);
     }
@@ -188,7 +212,7 @@ const Invoices = () => {
     <Container>
       <Sidebar />
       <LeftSection>
-        {/* Chi tiết thuốc */}
+        {/* Medicine Details */}
         {selectedMedicine && (
           <MedicineDetails>
             <h2>THÔNG TIN THUỐC</h2>
@@ -210,7 +234,9 @@ const Invoices = () => {
                 <p><strong>Mã thuốc:</strong> {selectedMedicine.medicineID}</p>
                 <p><strong>Tên thuốc:</strong> {selectedMedicine.medicineName}</p>
                 <p><strong>Thành phần:</strong> {selectedMedicine.ingredients}</p>
-                <p><strong>Đơn giá:</strong> {Math.round(selectedMedicine.unitPrice).toLocaleString()} VND</p>                <Input
+                <p><strong>Đơn vị tính:</strong> {unitMap[selectedMedicine.unit]}</p>
+                <p><strong>Đơn giá:</strong> {selectedMedicine.unitPrice.toLocaleString()} VND</p>
+                <Input
                   type="number"
                   value={quantity}
                   min="1"
@@ -223,7 +249,7 @@ const Invoices = () => {
           </MedicineDetails>
         )}
 
-        {/* Danh sách thuốc */}
+        {/* Medicine List */}
         <MedicineList>
           <h2>Danh sách thuốc</h2>
           <Input
@@ -237,6 +263,7 @@ const Invoices = () => {
               <tr>
                 <TableHeader>Mã thuốc</TableHeader>
                 <TableHeader>Tên thuốc</TableHeader>
+                <TableHeader>Đơn vị tính</TableHeader>
                 <TableHeader>Đơn giá</TableHeader>
                 <TableHeader>Hành động</TableHeader>
               </tr>
@@ -246,6 +273,7 @@ const Invoices = () => {
                 <tr key={medicine.medicineID}>
                   <TableCell>{medicine.medicineID}</TableCell>
                   <TableCell>{medicine.medicineName}</TableCell>
+                  <TableCell>{unitMap[medicine.unit]}</TableCell>
                   <TableCell>{medicine.unitPrice.toLocaleString()} VND</TableCell>
                   <TableCell>
                     <Button onClick={() => setSelectedMedicine(medicine)}>Chọn</Button>
@@ -258,7 +286,7 @@ const Invoices = () => {
       </LeftSection>
 
       <RightSection>
-        {/* Giỏ hàng */}
+        {/* Cart */}
         <Cart>
           <h2>Giỏ hàng</h2>
           <Table>
@@ -287,7 +315,7 @@ const Invoices = () => {
           </Table>
         </Cart>
 
-        {/* Thông tin hóa đơn */}
+        {/* Invoice Info */}
         <InvoiceInfo>
           <h2>Thông tin hóa đơn</h2>
           <Input
@@ -328,8 +356,15 @@ const Invoices = () => {
             <option value="Cash">Tiền mặt</option>
             <option value="Card">Thẻ</option>
           </Select>
+          <Select
+            value={form.status}
+            onChange={(e) => setForm({ ...form, status: e.target.value })}
+            required
+          >
+            <option value="Paid">Đã thanh toán</option>
+            <option value="Pending">Chưa thanh toán</option>
+          </Select>
           <h3>Tổng hóa đơn: {calculateTotal().toLocaleString()} VND</h3>
-          
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
             <Button style={{ backgroundColor: 'red' }} onClick={() => setCart([])}>HỦY BỎ</Button>
             <Button style={{ backgroundColor: 'green' }} onClick={handleCheckout}>TẠO HÓA ĐƠN</Button>
@@ -337,7 +372,7 @@ const Invoices = () => {
         </InvoiceInfo>
       </RightSection>
 
-      {/* Modal hiển thị hóa đơn */}
+      {/* Invoice Modal */}
       {showInvoiceModal && invoiceData && (
         <div id="invoice-print-area" style={{ padding: '1rem', backgroundColor: '#fff', borderRadius: '8px' }}>
           <h2>HÓA ĐƠN THANH TOÁN</h2>
@@ -345,12 +380,14 @@ const Invoices = () => {
           <p><strong>Số điện thoại:</strong> {invoiceData.customerPhone}</p>
           <p><strong>Địa chỉ:</strong> {invoiceData.address}</p>
           <p><strong>Phương thức thanh toán:</strong> {invoiceData.paymentMethod}</p>
+          <p><strong>Trạng thái:</strong> {invoiceData.status === 'Paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}</p>
           <hr />
           <h3>Danh sách thuốc:</h3>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>
                 <th style={{ border: '1px solid #ddd', padding: '8px' }}>Tên thuốc</th>
+                <th style={{ border: '1px solid #ddd', padding: '8px' }}>Đơn vị tính</th>
                 <th style={{ border: '1px solid #ddd', padding: '8px' }}>Số lượng</th>
                 <th style={{ border: '1px solid #ddd', padding: '8px' }}>Đơn giá</th>
                 <th style={{ border: '1px solid #ddd', padding: '8px' }}>Thành tiền</th>
@@ -360,6 +397,7 @@ const Invoices = () => {
               {invoiceData.medicines.map((item, index) => (
                 <tr key={index}>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{item.medicineName}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '8px' }}>{unitMap[item.unit]}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{item.quantity}</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{item.unitPrice.toLocaleString()} VND</td>
                   <td style={{ border: '1px solid #ddd', padding: '8px' }}>{(item.quantity * item.unitPrice).toLocaleString()} VND</td>
@@ -368,11 +406,14 @@ const Invoices = () => {
             </tbody>
           </table>
           <h3>Tổng tiền: {invoiceData.totalAmount.toLocaleString()} VND</h3>
-          <button onClick={() => setShowInvoiceModal(false)}>Đóng</button>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
+            <button onClick={() => setShowInvoiceModal(false)}>Đóng</button>
+            <button onClick={() => window.print()}>In hóa đơn</button>
+          </div>
         </div>
       )}
     </Container>
   );
 };
 
-export default Invoices;
+export default CreateInvoice;
