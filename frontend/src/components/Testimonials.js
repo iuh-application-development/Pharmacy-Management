@@ -1,85 +1,170 @@
 import React from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 const TestimonialsSection = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Căn giữa nội dung và hình ảnh */
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #059669, #34d399); /* Màu nền gradient xanh */
-  color: #ffffff; /* Màu chữ trắng */
-  gap: 3rem; /* Khoảng cách giữa nội dung và hình ảnh */
+  background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+  color: white;
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
 
-  @media (max-width: 768px) {
-    flex-direction: column; /* Xếp dọc trên màn hình nhỏ */
-    text-align: center;
-    gap: 1rem; /* Thêm khoảng cách giữa các phần tử trên màn hình nhỏ */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/images/pattern.png') repeat;
+    opacity: 0.1;
   }
 `;
 
-const ImageContainer = styled.div`
-  flex: 1;
-  max-width: 35%; /* Tăng kích thước hình ảnh */
+const TestimonialsContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  justify-content: center; /* Căn giữa hình ảnh */
-  margin-left: 3rem;
+  align-items: center;
+  gap: 4rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 2rem;
+  }
+`;
+
+const ImageContainer = styled(motion.div)`
+  flex: 1;
+  max-width: 400px;
+  
   img {
-    width: 100%; /* Đảm bảo hình ảnh không vượt quá kích thước container */
-    border-radius: 12px;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 768px) {
-    max-width: 80%; /* Giảm kích thước hình ảnh trên màn hình nhỏ */
-    margin-left: 0; /* Loại bỏ dịch chuyển trên màn hình nhỏ */
-
+    max-width: 300px;
   }
 `;
 
 const ContentContainer = styled.div`
   flex: 1;
-  text-align: center; /* Căn giữa nội dung */
+  z-index: 1;
 `;
 
-const Title = styled.h2`
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+const Title = styled(motion.h2)`
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    text-align: center;
+  }
 `;
 
-const Divider = styled.div`
-  width: 50px;
-  height: 4px;
-  background-color: #ffffff; /* Màu trắng cho divider */
-  margin: 1rem auto; /* Căn giữa divider */
+const Quote = styled(motion.blockquote)`
+  font-size: 1.25rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  font-style: italic;
+  position: relative;
+  padding-left: 2rem;
+
+  &::before {
+    content: '"';
+    font-size: 4rem;
+    position: absolute;
+    left: -1rem;
+    top: -1rem;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    text-align: center;
+    padding-left: 0;
+  }
 `;
 
-const Quote = styled.p`
-  font-size: 1.125rem;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  max-width: 500px; /* Giới hạn chiều rộng để cắt nội dung */
-  margin: 0 auto; /* Căn giữa đoạn văn bản */
+const Author = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
 `;
 
-const Author = styled.p`
-  font-size: 1rem;
-  font-weight: 600;
+const AuthorImage = styled.img`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid white;
+`;
+
+const AuthorInfo = styled.div`
+  h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
 `;
 
 const Testimonials = () => {
   return (
     <TestimonialsSection>
-      <ImageContainer>
-        <img src="/images/customer-Photoroom.png" alt="Client Testimonial" />
-      </ImageContainer>
-      <ContentContainer>
-        <Title>What Our Clients Say</Title>
-        <Divider />
-        <Quote>
-          "The pharmacists are all really nice and knowledgeable! They really go the extra mile to make sure every patient gets the highest quality of care."
-        </Quote>
-        <Author>- Josh Kirven</Author>
-      </ContentContainer>
+      <TestimonialsContainer>
+        <ImageContainer
+          initial={{ x: -100, opacity: 0 }}
+          whileInView={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <img src="/images/customer-Photoroom.png" alt="Happy Customer" />
+        </ImageContainer>
+        <ContentContainer>
+          <Title
+            initial={{ y: 30, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            What Our Clients Say
+          </Title>
+          <Quote
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            The pharmacy management system has revolutionized how we operate. 
+            The interface is intuitive, and the support team is exceptional. 
+            It's made our daily operations much more efficient and reliable.
+          </Quote>
+          <Author
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <AuthorImage src="/images/avatar.png" alt="Josh Kirven" />
+            <AuthorInfo>
+              <h4>Josh Kirven</h4>
+              <p>Pharmacy Owner</p>
+            </AuthorInfo>
+          </Author>
+        </ContentContainer>
+      </TestimonialsContainer>
     </TestimonialsSection>
   );
 };

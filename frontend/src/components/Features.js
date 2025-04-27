@@ -1,122 +1,146 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { BiCapsule, BiPackage, BiGroup } from 'react-icons/bi';
+import { FaClipboardList, FaPills, FaChartLine, FaUserTie } from 'react-icons/fa';
 
-const FeaturesContainer = styled.div`
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #f9fafb, #ffffff); /* Gradient nền */
-  text-align: center;
+const FeaturesSection = styled.section`
+  padding: 6rem 2rem;
+  background: #f8fafc;
 `;
 
-const FeaturesTitle = styled.h2`
+const FeaturesContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const SectionTitle = styled(motion.h2)`
+  text-align: center;
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800;
   color: #0f172a;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+`;
+
+const SectionSubtitle = styled(motion.p)`
+  text-align: center;
+  font-size: 1.2rem;
+  color: #64748b;
+  margin-bottom: 4rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 const FeaturesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
-  align-items: center;
+  padding: 1rem;
 `;
 
 const FeatureCard = styled(motion.div)`
-  background: #ffffff; /* Màu nền trắng */
-  border-radius: 16px; /* Bo góc mềm mại hơn */
+  background: white;
   padding: 2rem;
-  text-align: center;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Đổ bóng mạnh hơn */
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  
   &:hover {
-    transform: translateY(-10px); /* Hiệu ứng nổi nhẹ */
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Đổ bóng mạnh hơn khi hover */
-    background-color: #f0fdf4; /* Màu nền xanh nhạt khi hover */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   }
 `;
 
 const IconWrapper = styled.div`
-  font-size: 4rem; /* Tăng kích thước icon */
-  color: #059669;
-  margin-bottom: 1rem;
-  transition: color 0.3s ease;
-
-  ${FeatureCard}:hover & {
-    color: #34d399; /* Thay đổi màu icon khi hover */
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  
+  svg {
+    color: white;
+    font-size: 1.8rem;
   }
 `;
 
 const FeatureTitle = styled.h3`
-  font-size: 1.5rem; /* Tăng kích thước tiêu đề */
+  font-size: 1.4rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
   color: #0f172a;
+  margin-bottom: 1rem;
 `;
 
 const FeatureDescription = styled.p`
-  font-size: 1rem;
-  color: #6b7280;
+  color: #64748b;
   line-height: 1.6;
 `;
 
 const Features = () => {
-  const featureVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0 },
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2, // Hiệu ứng xuất hiện lần lượt
-      },
+  const features = [
+    {
+      icon: <FaClipboardList />,
+      title: "Inventory Management",
+      description: "Efficiently track and manage your pharmaceutical inventory with real-time updates and automated reordering."
     },
-  };
+    {
+      icon: <FaPills />,
+      title: "Medicine Database",
+      description: "Comprehensive database of medicines with detailed information about composition, dosage, and contraindications."
+    },
+    {
+      icon: <FaChartLine />,
+      title: "Sales Analytics",
+      description: "Advanced analytics and reporting tools to track sales performance and identify trends."
+    },
+    {
+      icon: <FaUserTie />,
+      title: "Employee Management",
+      description: "Streamline employee management with tools to track roles, performance, and work schedules efficiently."
+    }
+  ];
 
   return (
-    <FeaturesContainer>
-      <FeaturesTitle>Key Benefits</FeaturesTitle>
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
+    <FeaturesSection>
+      <FeaturesContainer>
+        <SectionTitle
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          Powerful Features
+        </SectionTitle>
+        <SectionSubtitle
+          initial={{ y: 30, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          Everything you need to manage your pharmacy efficiently
+        </SectionSubtitle>
         <FeaturesGrid>
-          {[
-            {
-              icon: <BiCapsule />,
-              title: 'Medicine Management',
-              description: 'Track inventory and prescriptions professionally.',
-            },
-            {
-              icon: <BiPackage />,
-              title: 'Order Management',
-              description: 'Process orders quickly and accurately.',
-            },
-            {
-              icon: <BiGroup />,
-              title: 'Employee Management',
-              description: 'Easily assign roles and control accounts.',
-            },
-          ].map((feature, index) => (
+          {features.map((feature, index) => (
             <FeatureCard
               key={index}
-              variants={featureVariants}
-              whileHover={{ scale: 1.05 }} // Slight zoom effect on hover
+              initial={{ y: 30, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true }}
             >
-              <IconWrapper>{feature.icon}</IconWrapper>
+              <IconWrapper>
+                {feature.icon}
+              </IconWrapper>
               <FeatureTitle>{feature.title}</FeatureTitle>
               <FeatureDescription>{feature.description}</FeatureDescription>
             </FeatureCard>
           ))}
         </FeaturesGrid>
-      </motion.div>
-    </FeaturesContainer>
+      </FeaturesContainer>
+    </FeaturesSection>
   );
 };
 

@@ -65,12 +65,17 @@ const Accounts = () => {
     e.preventDefault();
     const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
-
+  
     try {
+      const payload = { ...form };
+      if (!form.password) {
+        delete payload.password; // Xóa trường password nếu không có thay đổi
+      }
+  
       if (editingAccountID) {
-        await axios.put(`http://localhost:8000/api/auth/accounts/${editingAccountID}/`, form, { headers });
+        await axios.put(`http://localhost:8000/api/auth/accounts/${editingAccountID}/`, payload, { headers });
       } else {
-        await axios.post('http://localhost:8000/api/auth/accounts/', form, { headers });
+        await axios.post('http://localhost:8000/api/auth/accounts/', payload, { headers });
       }
       setForm({ username: '', password: '', role: '', employee: '' });
       setShowForm(false);
