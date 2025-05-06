@@ -14,13 +14,13 @@ import {
   Button,
   Form,
   Input,
-  SearchInput, // Import thêm SearchInput
+  SearchInput,
 } from './SuppliersStyles';
 
 const Suppliers = () => {
   const [suppliers, setSuppliers] = useState([]);
-  const [filteredSuppliers, setFilteredSuppliers] = useState([]); // Thêm state cho danh sách đã lọc
-  const [searchKeyword, setSearchKeyword] = useState(''); // Thêm state cho từ khóa tìm kiếm
+  const [filteredSuppliers, setFilteredSuppliers] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({
     supplierName: '',
@@ -36,7 +36,7 @@ const Suppliers = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/medicines/suppliers/', { headers });
       setSuppliers(response.data);
-      setFilteredSuppliers(response.data); // Hiển thị tất cả nhà cung cấp ban đầu
+      setFilteredSuppliers(response.data);
     } catch (error) {
       console.error('Error fetching suppliers:', error);
     }
@@ -65,30 +65,28 @@ const Suppliers = () => {
   };
 
   const generateSupplierID = () => {
-    const prefix = Math.random().toString(36).substring(2, 4).toUpperCase(); // Hai ký tự chữ cái
-    const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase(); // Tạo chuỗi ngẫu nhiên
+    const prefix = Math.random().toString(36).substring(2, 4).toUpperCase();
+    const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
     return `${prefix}-${randomPart}`;
   };
-  
+
   const handleAddOrUpdateSupplier = async (e) => {
     e.preventDefault();
     const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
-  
+
     try {
       if (editingSupplierID) {
-        // Update supplier
         await axios.put(
           `http://localhost:8000/api/medicines/suppliers/${editingSupplierID}/`,
-          { ...form, supplierID: editingSupplierID }, // Thêm supplierID vào payload
+          { ...form, supplierID: editingSupplierID },
           { headers }
         );
       } else {
-        // Add new supplier
-        const newSupplierID = generateSupplierID(); // Tạo supplierID mới
+        const newSupplierID = generateSupplierID();
         await axios.post(
           'http://localhost:8000/api/medicines/suppliers/',
-          { ...form, supplierID: newSupplierID }, // Thêm supplierID vào payload
+          { ...form, supplierID: newSupplierID },
           { headers }
         );
       }
@@ -137,7 +135,7 @@ const Suppliers = () => {
         <Toolbar>
           <div>
             <Button onClick={() => { setShowForm(!showForm); setEditingSupplierID(null); }}>
-            <FaPlus style={{ marginRight: '0.5rem' }} /> THÊM
+              <FaPlus style={{ marginRight: '0.5rem' }} /> THÊM
             </Button>
           </div>
           <div>
@@ -148,20 +146,20 @@ const Suppliers = () => {
               onChange={handleSearch}
             />
             <Button onClick={handleDownloadExcel}>
-            <FaDownload style={{ marginRight: '0.5rem' }} /> Tải xuống
+              <FaDownload style={{ marginRight: '0.5rem' }} /> Tải xuống
             </Button>
-
           </div>
         </Toolbar>
 
         {showForm && (
-          <Form onSubmit={handleAddOrUpdateSupplier}>
+          <Form data-testid="supplier-form" onSubmit={handleAddOrUpdateSupplier}>
             <Input
               type="text"
               placeholder="Tên nhà cung cấp"
               value={form.supplierName}
               onChange={(e) => setForm({ ...form, supplierName: e.target.value })}
               required
+              data-testid="name-input"
             />
             <Input
               type="text"
@@ -169,6 +167,15 @@ const Suppliers = () => {
               value={form.phoneNumber}
               onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })}
               required
+              data-testid="phone-input"
+            />
+            <Input
+              type="text"
+              placeholder="Địa chỉ"
+              value={form.address}
+              onChange={(e) => setForm({ ...form, address: e.target.value })}
+              required
+              data-testid="address-input"
             />
             <div style={{ display: 'flex', gap: '1rem' }}>
               <Button type="submit">{editingSupplierID ? 'Cập nhật' : 'Thêm mới'}</Button>
@@ -206,7 +213,9 @@ const Suppliers = () => {
                 <TableCell>{supplier.address}</TableCell>
                 <TableCell>
                   <Button onClick={() => handleEditSupplier(supplier)}>Sửa</Button>
-                  <Button onClick={() => handleDeleteSupplier(supplier.supplierID)}style={{ marginLeft: '0.25rem' }}>Xóa</Button>
+                  <Button onClick={() => handleDeleteSupplier(supplier.supplierID)} style={{ marginLeft: '0.25rem' }}>
+                    Xóa
+                  </Button>
                 </TableCell>
               </tr>
             ))}

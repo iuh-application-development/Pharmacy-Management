@@ -80,8 +80,10 @@ const Reports = () => {
 
   const handleDownloadPDF = async () => {
     try {
-      // Chỉ lấy nội dung của Sales Made, Customer Statistics, và Order Details
       const reportElement = document.getElementById('report-sections');
+      if (!reportElement) {
+        throw new Error('Report sections not found');
+      }
       const canvas = await html2canvas(reportElement, { scale: 2 });
       const imgData = canvas.toDataURL('image/png');
   
@@ -106,7 +108,7 @@ const Reports = () => {
       <Sidebar />
       <Content>
         <Toolbar>
-        <h1>Báo Cáo</h1>
+          <h1>Báo Cáo</h1>
           <div>
             <Button onClick={handleDownloadExcel}>
               <FaFileExcel style={{ marginRight: '0.5rem' }} />
@@ -118,10 +120,8 @@ const Reports = () => {
             </Button>
           </div>
         </Toolbar>
-        {/* Bọc các phần cần tải PDF trong một container riêng */}
         <div id="report-sections">
           <StatsGrid>
-            {/* Phần 1: Biểu đồ Sales Made */}
             <StatCard style={{ gridColumn: '1 / 2', gridRow: '1 / 2' }}>
               <h3>Sales Made</h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -135,7 +135,6 @@ const Reports = () => {
               </ResponsiveContainer>
             </StatCard>
   
-            {/* Phần 2: Biểu đồ Customer Statistics */}
             <StatCard style={{ gridColumn: '1 / 2', gridRow: '2 / 3' }}>
               <h3>Customer Statistics</h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -149,7 +148,6 @@ const Reports = () => {
               </ResponsiveContainer>
             </StatCard>
   
-            {/* Phần 3: Bảng Order Details */}
             <StatCard style={{ gridColumn: '2 / 3', gridRow: '1 / 3' }}>
               <h3>Order Details</h3>
               <Table>

@@ -29,8 +29,9 @@ const Accounts = () => {
     employee: '',
   });
   const [editingAccountID, setEditingAccountID] = useState(null);
+  // Thêm trạng thái formError để hiển thị thông báo lỗi khi form không hợp lệ (khắc phục lỗi kiểm thử)
+  const [formError, setFormError] = useState('');
 
-  // Fetch danh sách tài khoản
   const fetchAccounts = async () => {
     const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
@@ -44,7 +45,6 @@ const Accounts = () => {
     }
   };
 
-  // Xử lý tìm kiếm
   const handleSearch = (e) => {
     const keyword = e.target.value.toLowerCase();
     setSearchKeyword(keyword);
@@ -60,18 +60,26 @@ const Accounts = () => {
     setFilteredAccounts(filtered);
   };
 
-  // Xử lý thêm hoặc cập nhật tài khoản
   const handleAddOrUpdateAccount = async (e) => {
     e.preventDefault();
     const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
-  
+
+    // Kiểm tra tính hợp lệ của form trước khi gọi API (khắc phục lỗi kiểm thử)
+    if (!editingAccountID && (!form.username || !form.password || !form.role)) {
+      setFormError('Vui lòng điền đầy đủ tên tài khoản, mật khẩu và quyền.');
+      return; // Thoát nếu thiếu dữ liệu khi thêm tài khoản
+    }
+    if (editingAccountID && (!form.username || !form.role)) {
+      setFormError('Vui lòng điền đầy đủ tên tài khoản và quyền.');
+      return; // Thoát nếu thiếu dữ liệu khi sửa tài khoản
+    }
+
     try {
       const payload = { ...form };
       if (!form.password) {
-        delete payload.password; // Xóa trường password nếu không có thay đổi
+        delete payload.password;
       }
-  
       if (editingAccountID) {
         await axios.put(`http://localhost:8000/api/auth/accounts/${editingAccountID}/`, payload, { headers });
       } else {
@@ -80,25 +88,29 @@ const Accounts = () => {
       setForm({ username: '', password: '', role: '', employee: '' });
       setShowForm(false);
       setEditingAccountID(null);
+      // Xóa thông báo lỗi sau khi lưu thành công
+      setFormError('');
       fetchAccounts();
     } catch (error) {
       console.error('Error saving account:', error.response?.data || error.message);
+      // Hiển thị lỗi API trong giao diện
+      setFormError('Có lỗi xảy ra khi lưu tài khoản.');
     }
   };
 
-  // Xử lý chỉnh sửa tài khoản
   const handleEditAccount = (account) => {
     setForm({
       username: account.username,
-      password: '', // Không điền trước mật khẩu
+      password: '',
       role: account.role,
       employee: account.employee,
     });
     setShowForm(true);
     setEditingAccountID(account.accountID);
+    // Xóa thông báo lỗi khi mở form sửa
+    setFormError('');
   };
 
-  // Xử lý xóa tài khoản
   const handleDeleteAccount = async (accountID) => {
     const confirmDelete = window.confirm('Bạn có chắc chắn muốn xóa tài khoản này?');
     if (!confirmDelete) return;
@@ -114,7 +126,6 @@ const Accounts = () => {
     }
   };
 
-  // Xử lý kích hoạt/vô hiệu hóa tài khoản
   const handleToggleAccountStatus = async (accountID, currentStatus) => {
     const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
@@ -137,7 +148,14 @@ const Accounts = () => {
       <Content>
         <Toolbar>
           <div>
-            <Button onClick={() => { setShowForm(!showForm); setEditingAccountID(null); }}><FaPlus /> THÊM</Button>
+            <Button onClick={() => {
+              setShowForm(!showForm);
+              setEditingAccountID(null);
+              // Xóa thông báo lỗi khi mở form thêm
+              setFormError('');
+            }}>
+              <FaPlus /> THÊM
+            </Button>
           </div>
           <div>
             <SearchInput
@@ -151,6 +169,8 @@ const Accounts = () => {
 
         {showForm && (
           <Form onSubmit={handleAddOrUpdateAccount}>
+            {/* Hiển thị thông báo lỗi nếu form không hợp lệ hoặc API thất bại */}
+            {formError && <div style={{ color: 'red', marginBottom: '1rem' }}>{formError}</div>}
             <Input
               type="text"
               placeholder="Tên tài khoản"
@@ -188,6 +208,8 @@ const Accounts = () => {
                   setShowForm(false);
                   setForm({ username: '', password: '', role: '', employee: '' });
                   setEditingAccountID(null);
+                  // Xóa thông báo lỗi khi hủy form
+                  setFormError('');
                 }}
               >
                 Hủy
@@ -218,8 +240,11 @@ const Accounts = () => {
                 <TableCell>{account.is_active ? 'Hoạt động' : 'Vô hiệu'}</TableCell>
                 <TableCell>
                   <Button onClick={() => handleEditAccount(account)}>Sửa</Button>
-                  <Button onClick={() => handleDeleteAccount(account.accountID)}style={{ marginLeft: '0.25rem' }}>Xóa</Button>
-                  <Button onClick={() => handleToggleAccountStatus(account.accountID, account.is_active)}style={{ marginLeft: '0.25rem' }}>
+                  <Button onClick={() => handleDeleteAccount(account.accountID)} style={{ marginLeft: '0.25rem' }}>Xóa</Button>
+                  <Button
+                    onClick={() => handleToggleAccountStatus(account.accountID, account.is_active)}
+                    style={{ marginLeft: '0.25rem' }}
+                  >
                     {account.is_active ? 'Vô hiệu hóa' : 'Kích hoạt'}
                   </Button>
                 </TableCell>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { FaPills, FaTruck, FaExclamationTriangle } from 'react-icons/fa'; // Import icons
+import { FaPills, FaTruck, FaExclamationTriangle } from 'react-icons/fa';
 import Sidebar from '../../components/Sidebar';
 import {
   Container,
@@ -55,6 +55,7 @@ const ProductManagerDashboard = () => {
   const [paymentData, setPaymentData] = useState([]);
 
   const fetchStats = async () => {
+    console.log('fetchStats started');
     const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
@@ -65,39 +66,39 @@ const ProductManagerDashboard = () => {
         axios.get('http://localhost:8000/api/medicines/payments/', { headers }),
         axios.get('http://localhost:8000/api/medicines/payment-details/', { headers }),
       ]);
+      console.log('API calls completed', {
+        medicines: medicinesRes.data,
+        suppliers: suppliersRes.data,
+        payments: paymentsRes.data,
+        paymentDetails: paymentDetailsRes.data,
+      });
 
-      // Thuốc hết hạn
       const expiredMedicines = medicinesRes.data.filter(
         (medicine) => new Date(medicine.expiryDate) < new Date()
       );
 
-      // Thống kê danh mục
       const categoryStats = medicinesRes.data.reduce((acc, medicine) => {
         const name = catalogMap[medicine.catalog] || 'Không xác định';
         acc[name] = (acc[name] || 0) + 1;
         return acc;
       }, {});
 
-      // Thống kê xuất xứ
       const originStats = medicinesRes.data.reduce((acc, medicine) => {
         const name = originMap[medicine.origin] || 'Không xác định';
         acc[name] = (acc[name] || 0) + 1;
         return acc;
       }, {});
 
-      // Thống kê đơn vị tính
       const unitStats = medicinesRes.data.reduce((acc, medicine) => {
         const name = unitMap[medicine.unit] || 'Không xác định';
         acc[name] = (acc[name] || 0) + 1;
         return acc;
       }, {});
 
-      // Thuốc tồn kho thấp
       const lowStockMedicines = medicinesRes.data
         .sort((a, b) => a.stockQuantity - b.stockQuantity)
         .slice(0, 5);
 
-      // Dữ liệu thanh toán
       const paymentDetails = paymentDetailsRes.data.reduce((acc, detail) => {
         const payment = paymentsRes.data.find((p) => p.paymentID === detail.payment);
         if (!payment) return acc;
@@ -114,7 +115,11 @@ const ProductManagerDashboard = () => {
         totalCost,
       }));
 
-      // Cập nhật state
+      console.log('Setting state with stats:', {
+        totalMedicines: medicinesRes.data.length,
+        totalSuppliers: suppliersRes.data.length,
+        expiredMedicinesCount: expiredMedicines.length,
+      });
       setStats({
         totalMedicines: medicinesRes.data.length,
         totalSuppliers: suppliersRes.data.length,
@@ -125,29 +130,31 @@ const ProductManagerDashboard = () => {
       setUnitStats(Object.entries(unitStats).map(([key, value]) => ({ name: key, value })));
       setLowStockMedicines(lowStockMedicines);
       setPaymentData(paymentData);
+      console.log('State updated');
     } catch (error) {
+      console.log('fetchStats error:', error);
       console.error('Error fetching stats:', error.response?.data || error.message);
     }
   };
 
   useEffect(() => {
+    console.log('useEffect triggered');
     fetchStats();
   }, []);
 
+  console.log('Rendering ProductManagerDashboard with stats:', stats);
   return (
     <Container>
       <Sidebar />
       <Content>
         <h1>Dashboard</h1>
-
-        {/* Phần 1: Thống kê */}
         <StatsGrid>
           <StatCard className="info" as={Link} to="/medicines">
             <IconWrapper>
               <FaPills />
             </IconWrapper>
             <StatTitle>Số loại thuốc trong kho</StatTitle>
-            <StatValue>{stats.totalMedicines}</StatValue>
+            <StatValue data-testid="medicines-value">{stats.totalMedicines}</StatValue>
             <ViewDetail>View Medicines &raquo;</ViewDetail>
           </StatCard>
           <StatCard className="success" as={Link} to="/suppliers">
@@ -155,7 +162,7 @@ const ProductManagerDashboard = () => {
               <FaTruck />
             </IconWrapper>
             <StatTitle>Số lượng nhà cung cấp</StatTitle>
-            <StatValue>{stats.totalSuppliers}</StatValue>
+            <StatValue data-testid="suppliers-value">{stats.totalSuppliers}</StatValue>
             <ViewDetail>View Suppliers &raquo;</ViewDetail>
           </StatCard>
           <StatCard className="danger" as={Link} to="/medicines">
@@ -163,16 +170,14 @@ const ProductManagerDashboard = () => {
               <FaExclamationTriangle />
             </IconWrapper>
             <StatTitle>Thuốc hết hạn</StatTitle>
-            <StatValue>{stats.expiredMedicinesCount}</StatValue>
+            <StatValue data-testid="expired-value">{stats.expiredMedicinesCount}</StatValue>
             <ViewDetail>Resolve Now &raquo;</ViewDetail>
           </StatCard>
         </StatsGrid>
-
-        {/* Phần 2: Biểu đồ thống kê */}
         <h2>Thống kê thuốc</h2>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
           <ChartContainer style={{ flex: 1 }}>
-            <h3>Danh mục</h3>
+            <h3 data-testid="category-chart-title">Danh mục</h3>
             <ResponsiveContainer width="100%" height={355}>
               <PieChart>
                 <Pie
@@ -190,12 +195,12 @@ const ProductManagerDashboard = () => {
                   ))}
                 </Pie>
                 <Tooltip />
-                <Legend layout="horizontal" verticalAlign="bottom" align="center" /> {/* Chú thích ở dưới */}
+                <Legend layout="horizontal" verticalAlign="bottom" align="center" />
               </PieChart>
             </ResponsiveContainer>
           </ChartContainer>
           <ChartContainer style={{ flex: 1 }}>
-            <h3>Xuất xứ</h3>
+            <h3 data-testid="origin-chart-title">Xuất xứ</h3>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -213,12 +218,12 @@ const ProductManagerDashboard = () => {
                   ))}
                 </Pie>
                 <Tooltip />
-                <Legend verticalAlign="bottom" height={36} /> {/* Thêm chú thích */}
+                <Legend verticalAlign="bottom" height={36} />
               </PieChart>
             </ResponsiveContainer>
           </ChartContainer>
           <ChartContainer style={{ flex: 1 }}>
-            <h3>Đơn vị tính</h3>
+            <h3 data-testid="unit-chart-title">Đơn vị tính</h3>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -236,20 +241,15 @@ const ProductManagerDashboard = () => {
                   ))}
                 </Pie>
                 <Tooltip />
-                <Legend verticalAlign="bottom" height={50} /> {/* Thêm chú thích */}
+                <Legend verticalAlign="bottom" height={50} />
               </PieChart>
             </ResponsiveContainer>
           </ChartContainer>
         </div>
-
-        {/* Phần 3: Biểu đồ thanh toán */}
         <h2>Chi phí nhập thuốc theo thời gian</h2>
         <ChartContainer>
-          <ResponsiveContainer width="95%" height={300}> {/* Giảm chiều rộng */}
-            <LineChart
-              data={paymentData}
-              margin={{ left: 50 }} // Thêm khoảng trống bên trái
-            >
+          <ResponsiveContainer width="95%" height={300}>
+            <LineChart data={paymentData} margin={{ left: 50 }}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
               <YAxis tickFormatter={(value) => value.toLocaleString()} />
@@ -258,25 +258,16 @@ const ProductManagerDashboard = () => {
             </LineChart>
           </ResponsiveContainer>
         </ChartContainer>
-
-        {/* Phần 4: Thống kê thuốc tồn kho thấp */}
         <h2>Thuốc tồn kho thấp</h2>
         <Table>
-          <thead>
-            <tr>
-              <TableHeader>Mã thuốc</TableHeader>
-              <TableHeader>Tên thuốc</TableHeader>
-              <TableHeader>Số lượng</TableHeader>
-              <TableHeader>Đơn vị tính</TableHeader> {/* Thêm cột đơn vị tính */}
-            </tr>
-          </thead>
+          <thead><tr><TableHeader>Mã thuốc</TableHeader><TableHeader>Tên thuốc</TableHeader><TableHeader>Số lượng</TableHeader><TableHeader>Đơn vị tính</TableHeader></tr></thead>
           <tbody>
             {lowStockMedicines.map((medicine) => (
               <tr key={medicine.medicineID}>
-                <TableCell>{medicine.medicineID}</TableCell>
-                <TableCell>{medicine.medicineName}</TableCell>
-                <TableCell>{medicine.stockQuantity}</TableCell>
-                <TableCell>{unitMap[medicine.unit]}</TableCell> {/* Hiển thị đơn vị tính */}
+                <TableCell data-testid={`medicine-table-id-${medicine.medicineID}`}>{medicine.medicineID}</TableCell>
+                <TableCell data-testid={`medicine-table-name-${medicine.medicineID}`}>{medicine.medicineName}</TableCell>
+                <TableCell data-testid={`medicine-table-quantity-${medicine.medicineID}`}>{medicine.stockQuantity}</TableCell>
+                <TableCell data-testid={`medicine-table-unit-${medicine.medicineID}`}>{unitMap[medicine.unit]}</TableCell>
               </tr>
             ))}
           </tbody>
