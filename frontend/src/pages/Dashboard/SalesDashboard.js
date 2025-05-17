@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaUsers, FaFileInvoice, FaShoppingCart } from 'react-icons/fa'; // Import icons
+import { FaUsers, FaFileInvoice, FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar';
 import {
@@ -45,6 +45,7 @@ const SalesDashboard = () => {
   const [potentialCustomers, setPotentialCustomers] = useState([]);
 
   const fetchStats = async () => {
+    console.log('fetchStats started');
     const token = sessionStorage.getItem('token');
     const headers = { Authorization: `Token ${token}` };
 
@@ -55,6 +56,13 @@ const SalesDashboard = () => {
         axios.get('http://localhost:8000/api/sales/customers/', { headers }),
         axios.get('http://localhost:8000/api/medicines/medicines/', { headers }),
       ]);
+
+      console.log('API calls completed:', {
+        invoiceDetails: invoiceDetailsRes.data,
+        invoices: invoicesRes.data,
+        customers: customersRes.data,
+        medicines: medicinesRes.data,
+      });
 
       const totalCustomers = customersRes.data.length;
       const totalProductsSold = invoiceDetailsRes.data.reduce(
@@ -99,6 +107,21 @@ const SalesDashboard = () => {
         .sort((a, b) => b.totalInvoices - a.totalInvoices)
         .slice(0, 5);
 
+      console.log('Setting state with:', {
+        stats: {
+          totalCustomers,
+          totalInvoices: invoicesRes.data.length,
+          paidInvoices,
+          pendingInvoices,
+          cardPayments,
+          cashPayments,
+          totalProductsSold,
+        },
+        topProducts,
+        recentInvoices,
+        potentialCustomers,
+      });
+
       setStats({
         totalCustomers,
         totalInvoices: invoicesRes.data.length,
@@ -108,17 +131,21 @@ const SalesDashboard = () => {
         cashPayments,
         totalProductsSold,
       });
-      setRecentInvoices(recentInvoices);
       setTopSellingProducts(topProducts);
+      setRecentInvoices(recentInvoices);
       setPotentialCustomers(potentialCustomers);
+      console.log('State updated');
     } catch (error) {
       console.error('Error fetching stats:', error.response?.data || error.message);
     }
   };
 
   useEffect(() => {
+    console.log('useEffect triggered');
     fetchStats();
   }, []);
+
+  console.log('Rendering SalesDashboard with stats:', stats);
 
   const COLORS = ['#0088FE', '#FF8042', '#00C49F', '#FFBB28'];
 
@@ -126,7 +153,6 @@ const SalesDashboard = () => {
     <Container>
       <Sidebar />
       <Content>
-        {/* Phần 1: Thống kê cơ bản */}
         <h1>Sales Dashboard</h1>
         <StatsGrid>
           <StatCard className="info" as={Link} to="/customers">
@@ -134,32 +160,31 @@ const SalesDashboard = () => {
               <FaUsers />
             </IconWrapper>
             <StatTitle>Số khách hàng</StatTitle>
-            <StatValue>{stats.totalCustomers}</StatValue>
-            <ViewDetail>View Customers &raquo;</ViewDetail>
+            <StatValue data-testid="customers-value">{stats.totalCustomers}</StatValue>
+            <ViewDetail data-testid="customers-view-link">View Customers »</ViewDetail>
           </StatCard>
           <StatCard className="success" as={Link} to="/invoices/list">
             <IconWrapper>
               <FaFileInvoice />
             </IconWrapper>
             <StatTitle>Số hóa đơn</StatTitle>
-            <StatValue>{stats.totalInvoices}</StatValue>
-            <ViewDetail>View Invoices &raquo;</ViewDetail>
+            <StatValue data-testid="invoices-value">{stats.totalInvoices}</StatValue>
+            <ViewDetail data-testid="invoices-view-link">View Invoices »</ViewDetail>
           </StatCard>
           <StatCard className="warning" as={Link} to="/invoices/list">
             <IconWrapper>
               <FaShoppingCart />
             </IconWrapper>
             <StatTitle>Sản phẩm đã bán</StatTitle>
-            <StatValue>{stats.totalProductsSold}</StatValue>
-            <ViewDetail>View Invocies &raquo;</ViewDetail>
+            <StatValue data-testid="products-sold-value">{stats.totalProductsSold}</StatValue>
+            <ViewDetail data-testid="products-sold-view-link">View Invoices »</ViewDetail>
           </StatCard>
         </StatsGrid>
 
-        {/* Phần 2: Biểu đồ và bảng hóa đơn */}
-        <h2>Tỷ lệ thanh toán</h2>
+        <h2 data-testid="payment-ratio-title">Tỷ lệ thanh toán</h2>
         <div style={{ display: 'flex', gap: '2rem' }}>
           <ResponsiveContainer width="50%" height={300}>
-            <PieChart>
+            <PieChart data-testid="paid-pending-pie-chart">
               <Pie
                 data={[
                   { name: 'Paid', value: stats.paidInvoices },
@@ -183,7 +208,7 @@ const SalesDashboard = () => {
           </ResponsiveContainer>
 
           <ResponsiveContainer width="50%" height={300}>
-            <PieChart>
+            <PieChart data-testid="payment-method-pie-chart">
               <Pie
                 data={[
                   { name: 'Card', value: stats.cardPayments },
@@ -207,34 +232,25 @@ const SalesDashboard = () => {
           </ResponsiveContainer>
         </div>
 
-        <h2>5 Hóa đơn gần đây nhất</h2>
+        <h2 data-testid="recent-invoices-title">5 Hóa đơn gần đây nhất</h2>
         <Table>
-          <thead>
-            <tr>
-              <TableHeader>Mã hóa đơn</TableHeader>
-              <TableHeader>Thời gian</TableHeader>
-              <TableHeader>Khách hàng</TableHeader>
-              <TableHeader>Trạng thái</TableHeader>
-              <TableHeader>Phương thức thanh toán</TableHeader>
-            </tr>
-          </thead>
+          <thead><tr><TableHeader>Mã hóa đơn</TableHeader><TableHeader>Thời gian</TableHeader><TableHeader>Khách hàng</TableHeader><TableHeader>Trạng thái</TableHeader><TableHeader>Phương thức thanh toán</TableHeader></tr></thead>
           <tbody>
             {recentInvoices.map((invoice) => (
               <tr key={invoice.invoiceID}>
-                <TableCell>{invoice.invoiceID}</TableCell>
-                <TableCell>{new Date(invoice.invoiceTime).toLocaleString()}</TableCell>
-                <TableCell>{invoice.customer}</TableCell>
-                <TableCell>{invoice.status}</TableCell>
-                <TableCell>{invoice.paymentMethod}</TableCell>
+                <TableCell data-testid={`invoice-id-${invoice.invoiceID}`}>{invoice.invoiceID}</TableCell>
+                <TableCell data-testid={`invoice-time-${invoice.invoiceID}`}>{new Date(invoice.invoiceTime).toLocaleString()}</TableCell>
+                <TableCell data-testid={`invoice-customer-${invoice.invoiceID}`}>{invoice.customer}</TableCell>
+                <TableCell data-testid={`invoice-status-${invoice.invoiceID}`}>{invoice.status}</TableCell>
+                <TableCell data-testid={`invoice-payment-${invoice.invoiceID}`}>{invoice.paymentMethod}</TableCell>
               </tr>
             ))}
           </tbody>
         </Table>
 
-        {/* Phần 3: Top sản phẩm bán chạy */}
-        <h2>Top sản phẩm bán chạy</h2>
+        <h2 data-testid="top-products-title">Top sản phẩm bán chạy</h2>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={topSellingProducts}>
+          <BarChart data={topSellingProducts} data-testid="top-products-bar-chart">
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="name" />
             <YAxis />
@@ -243,10 +259,9 @@ const SalesDashboard = () => {
           </BarChart>
         </ResponsiveContainer>
 
-        {/* Phần 4: Biểu đồ khách hàng tiềm năng */}
-        <h2>Khách hàng tiềm năng</h2>
+        <h2 data-testid="potential-customers-title">Khách hàng tiềm năng</h2>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={potentialCustomers}>
+          <BarChart data={potentialCustomers} data-testid="potential-customers-bar-chart">
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="fullName" />
             <YAxis />

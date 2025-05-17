@@ -72,25 +72,35 @@ const CreatePayment = () => {
 
   // Add medicine to payment details
   const handleAddMedicine = () => {
-    if (!selectedMedicine) return;
+  if (!selectedMedicine) {
+    console.log('No selected medicine');
+    return;
+  }
 
-    const existingItem = paymentDetails.find((item) => item.medicine === selectedMedicine.medicineID);
-    if (existingItem) {
-      alert('Thuốc này đã được thêm vào chi tiết phiếu nhập.');
-      return;
-    }
+  console.log('Before adding - selectedMedicine:', selectedMedicine);
+  console.log('Before adding - paymentDetails:', paymentDetails);
+  const existingItem = paymentDetails.find((item) => item.medicine === selectedMedicine.medicineID);
+  console.log('existingItem:', existingItem);
 
-    setPaymentDetails([
-      ...paymentDetails,
-      {
-        id: paymentDetails.length + 1,
-        medicine: selectedMedicine.medicineID,
-        quantity: selectedMedicine.quantity || 1,
-        unitPrice: selectedMedicine.importPrice,
-      },
-    ]);
-    setSelectedMedicine(null);
+  if (existingItem) {
+    alert('Thuốc này đã được thêm vào chi tiết phiếu nhập.');
+    return;
+  }
+
+  const newItem = {
+    id: paymentDetails.length + 1,
+    medicine: selectedMedicine.medicineID,
+    quantity: selectedMedicine.quantity || 1,
+    unitPrice: selectedMedicine.importPrice,
   };
+
+  setPaymentDetails((prevDetails) => {
+    const updatedDetails = [...prevDetails, newItem];
+    console.log('After adding - paymentDetails:', updatedDetails);
+    return updatedDetails;
+  });
+  setSelectedMedicine(null);
+};
 
   // Remove medicine from payment details
   const handleRemoveMedicine = (id) => {

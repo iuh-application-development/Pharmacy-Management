@@ -333,6 +333,7 @@ const CreateInvoice = () => {
             required
           />
           <Select
+            aria-label="Chọn giới tính" //Thêm aria-label để cải thiện khả năng truy vấn
             value={form.gender}
             onChange={(e) => setForm({ ...form, gender: e.target.value })}
             required
