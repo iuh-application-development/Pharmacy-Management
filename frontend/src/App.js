@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import ContactUs from './pages/ContactUs';
@@ -19,9 +19,15 @@ import CreatePayment from './pages/Payments/CreatePayment'; // Import trang Crea
 import ListPayments from './pages/Payments/ListPayments'; // Import trang ListPayments
 import Customers from './pages/Customers/Customers'; // Import trang Customers
 
-function App() {
+import Chatbot from './components/Chatbot';
+
+function AppRoutes() {
+  const location = useLocation();
+  // Ẩn Chatbot trên trang login và landing page
+  const hideChatbot = location.pathname === '/login' || location.pathname === '/';
+
   return (
-    <Router>
+    <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
@@ -40,11 +46,20 @@ function App() {
         <Route path="/customers" element={<Customers />} />
         {/* <Route path="/orders" element={<Orders />} /> */}
         <Route path="/reports" element={<Reports />} />
-        
         {/* Định nghĩa các route cho hóa đơn */}
         <Route path="/invoices/create" element={<CreateInvoice />} />
         <Route path="/invoices/list" element={<ListInvoices />} />
       </Routes>
+      {!hideChatbot && <Chatbot />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppRoutes />
+      {/* Các route khác có thể được thêm vào đây */}
     </Router>
   );
 }
