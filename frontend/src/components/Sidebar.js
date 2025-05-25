@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { BiHome, BiFile, BiUser, BiPackage, BiLock, BiLogOut, BiChevronDown, BiChevronUp } from 'react-icons/bi';
+import { BiHome, BiFile, BiUser, BiPackage, BiLock, BiLogOut, BiChevronDown, BiChevronUp, BiReceipt, BiBuildings, BiCart, BiGroup } from 'react-icons/bi';
 import axios from 'axios';
 
 const SidebarContainer = styled.div`
@@ -185,7 +185,7 @@ const Sidebar = () => {
               onClick={() => setInvoiceSubMenuOpen(!isInvoiceSubMenuOpen)}
               style={{ cursor: 'pointer' }}
             >
-              <BiFile /> Hóa Đơn
+              <BiReceipt /> Hóa Đơn
               {isInvoiceSubMenuOpen ? <BiChevronUp style={{ marginLeft: 'auto' }} /> : <BiChevronDown style={{ marginLeft: 'auto' }} />}
             </MenuItem>
             <SubMenu isOpen={isInvoiceSubMenuOpen}>
@@ -208,14 +208,14 @@ const Sidebar = () => {
               <BiPackage /> Thuốc
             </MenuItem>
             <MenuItem to="/suppliers" activeClassName="active">
-              <BiPackage /> Nhà Cung Cấp
+              <BiBuildings /> Nhà Cung Cấp
             </MenuItem>
             <MenuItem
               as="div"
               onClick={() => setPaymentSubMenuOpen(!isPaymentSubMenuOpen)}
               style={{ cursor: 'pointer' }}
             >
-              <BiPackage /> Phiếu Nhập
+              <BiCart /> Phiếu Nhập
               {isPaymentSubMenuOpen ? <BiChevronUp style={{ marginLeft: 'auto' }} /> : <BiChevronDown style={{ marginLeft: 'auto' }} />}
             </MenuItem>
             <SubMenu isOpen={isPaymentSubMenuOpen}>
@@ -232,7 +232,7 @@ const Sidebar = () => {
         {role === 'Admin' && (
           <>
             <MenuItem to="/employees" activeClassName="active">
-              <BiUser /> Nhân Viên
+              <BiGroup /> Nhân Viên
             </MenuItem>
             <MenuItem to="/accounts" activeClassName="active">
               <BiLock /> Tài Khoản
