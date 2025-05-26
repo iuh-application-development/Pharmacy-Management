@@ -120,20 +120,19 @@ const CreateInvoice = () => {
       // Check if customer exists
       let customerID;
       try {
-        const existingCustomerResponse = await axios.get(
-          `http://localhost:8000/api/sales/customers/`,
-          {
-            params: {
-              fullName: form.customerName.trim(),
-              phoneNumber: form.phoneNumber.trim(),
-            },
-            headers,
-          }
+        // Lấy toàn bộ danh sách khách hàng
+        const customersRes = await axios.get(
+          'http://localhost:8000/api/sales/customers/',
+          { headers }
         );
-
-        if (existingCustomerResponse.data.length > 0) {
-          // Sử dụng ID của khách hàng đã tồn tại
-          customerID = existingCustomerResponse.data[0].customerID;
+        // Tìm khách hàng trùng tên và số điện thoại
+        const existingCustomer = customersRes.data.find(
+          (c) =>
+            c.fullName.trim().toLowerCase() === form.customerName.trim().toLowerCase() &&
+            c.phoneNumber.trim() === form.phoneNumber.trim()
+        );
+        if (existingCustomer) {
+          customerID = existingCustomer.customerID;
         } else {
           // Tạo khách hàng mới nếu không tìm thấy
           const customerResponse = await axios.post(
@@ -188,6 +187,7 @@ const CreateInvoice = () => {
         customerPhone: form.phoneNumber,
         address: form.address,
         paymentMethod: form.paymentMethod,
+        status: form.status,
         medicines: cart,
         totalAmount: calculateTotal(),
       });
