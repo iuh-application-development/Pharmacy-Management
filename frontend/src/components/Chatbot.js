@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { StyleSheetManager } from 'styled-components';
+import isPropValid from '@emotion/is-prop-valid';
 import { FiMessageSquare, FiSend, FiX } from 'react-icons/fi';
 import { sendMessageToChatbot } from '../services/chatbotService';
 
 // Theme Colors
-const primaryGreen = '#2E7D32'; // Darker, professional green
-const lightGreenBackground = '#E8F5E9'; // Light green for user messages
-const chatBodyBg = '#F7F9F7'; // Very light off-white/greenish tint
+const primaryGreen = '#2E7D32';
+const lightGreenBackground = '#E8F5E9';
+const chatBodyBg = '#F7F9F7';
 const textColor = '#333333';
 const borderColor = '#D0D0D0';
 
@@ -49,9 +51,9 @@ const ChatbotContainer = styled.div`
   z-index: 1000;
   overflow: hidden;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  opacity: ${props => props.isOpen ? 1 : 0};
-  transform: ${props => props.isOpen ? 'translateY(0)' : 'translateY(20px)'};
-  pointer-events: ${props => props.isOpen ? 'auto' : 'none'};
+  opacity: ${props => props.$isOpen ? 1 : 0};
+  transform: ${props => props.$isOpen ? 'translateY(0)' : 'translateY(20px)'};
+  pointer-events: ${props => props.$isOpen ? 'auto' : 'none'};
 `;
 
 const ChatHeader = styled.div`
@@ -122,7 +124,7 @@ const MessageBubble = styled.div`
   word-wrap: break-word;
   line-height: 1.45;
   font-size: 0.95em;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 `;
 
 const Message = styled.div`
@@ -246,39 +248,41 @@ const Chatbot = () => {
   };
 
   return (
-    <>
-      <ChatbotToggle onClick={toggleChat} aria-label={isOpen ? 'Close chat' : 'Open chat'}>
-        {isOpen ? <FiX /> : <FiMessageSquare />}
-      </ChatbotToggle>
-      <ChatbotContainer isOpen={isOpen}>
-        <ChatHeader>
-          Pharmacy Assistant
-          <CloseButton onClick={toggleChat} aria-label="Close chat"><FiX /></CloseButton>
-        </ChatHeader>
-        <ChatBody ref={chatBodyRef}>
-          {messages.map((msg, index) => (
-            <Message key={index} className={msg.isUser ? 'user' : 'bot'}>
-              <MessageBubble>{msg.text}</MessageBubble>
-              <MessageTimestamp>
-                {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </MessageTimestamp>
-            </Message>
-          ))}
-        </ChatBody>
-        <UserInput onSubmit={handleSubmit}>
-          <Input
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Ask me anything..."
-            aria-label="Chat input"
-          />
-          <SendButton type="submit" disabled={!inputValue.trim()} aria-label="Send message">
-            <FiSend />
-          </SendButton>
-        </UserInput>
-      </ChatbotContainer>
-    </>
+    <StyleSheetManager shouldForwardProp={(prop) => isPropValid(prop)}>
+      <>
+        <ChatbotToggle onClick={toggleChat} aria-label={isOpen ? 'Close chat' : 'Open chat'}>
+          {isOpen ? <FiX /> : <FiMessageSquare />}
+        </ChatbotToggle>
+        <ChatbotContainer $isOpen={isOpen}>
+          <ChatHeader>
+            Pharmacy Assistant
+            <CloseButton onClick={toggleChat} aria-label="Close chat"><FiX /></CloseButton>
+          </ChatHeader>
+          <ChatBody ref={chatBodyRef}>
+            {messages.map((msg, index) => (
+              <Message key={index} className={msg.isUser ? 'user' : 'bot'}>
+                <MessageBubble>{msg.text}</MessageBubble>
+                <MessageTimestamp>
+                  {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </MessageTimestamp>
+              </Message>
+            ))}
+          </ChatBody>
+          <UserInput onSubmit={handleSubmit}>
+            <Input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder="Ask me anything..."
+              aria-label="Chat input"
+            />
+            <SendButton type="submit" disabled={!inputValue.trim()} aria-label="Send message">
+              <FiSend />
+            </SendButton>
+          </UserInput>
+        </ChatbotContainer>
+      </>
+    </StyleSheetManager>
   );
 };
 

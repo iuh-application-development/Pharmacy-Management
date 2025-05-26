@@ -157,23 +157,23 @@ const Sidebar = () => {
 
       <Menu>
         {role === 'Admin' && (
-          <MenuItem to="/dashboard" activeClassName="active">
+          <MenuItem to="/dashboard" className={({ isActive }) => (isActive ? "active" : "")}>
             <BiHome /> Trang Chủ
           </MenuItem>
         )}
         {role === 'Nhân viên bán hàng' && (
-          <MenuItem to="/sales-dashboard" activeClassName="active">
+          <MenuItem to="/sales-dashboard" className={({ isActive }) => (isActive ? "active" : "")}>
             <BiHome /> Trang Chủ
           </MenuItem>
         )}
         {role === 'Nhân viên quản lý sản phẩm' && (
-          <MenuItem to="/product-manager-dashboard" activeClassName="active">
+          <MenuItem to="/product-manager-dashboard" className={({ isActive }) => (isActive ? "active" : "")}>
             <BiHome /> Trang Chủ
           </MenuItem>
         )}
 
         {role === 'Admin' && (
-          <MenuItem to="/reports" activeClassName="active">
+          <MenuItem to="/reports" className={({ isActive }) => (isActive ? "active" : "")}>
             <BiFile /> Báo Cáo
           </MenuItem>
         )}
@@ -189,14 +189,14 @@ const Sidebar = () => {
               {isInvoiceSubMenuOpen ? <BiChevronUp style={{ marginLeft: 'auto' }} /> : <BiChevronDown style={{ marginLeft: 'auto' }} />}
             </MenuItem>
             <SubMenu isOpen={isInvoiceSubMenuOpen}>
-              <MenuItem to="/invoices/create" activeClassName="active">
+              <MenuItem to="/invoices/create" className={({ isActive }) => (isActive ? "active" : "")}>
                 Tạo Hóa Đơn
               </MenuItem>
-              <MenuItem to="/invoices/list" activeClassName="active">
+              <MenuItem to="/invoices/list" className={({ isActive }) => (isActive ? "active" : "")}>
                 Danh Sách Hóa Đơn
               </MenuItem>
             </SubMenu>
-            <MenuItem to="/customers" activeClassName="active">
+            <MenuItem to="/customers" className={({ isActive }) => (isActive ? "active" : "")}>
               <BiUser /> Khách Hàng
             </MenuItem>
           </>
@@ -204,10 +204,10 @@ const Sidebar = () => {
 
         {(role === 'Nhân viên quản lý sản phẩm' || role === 'Admin') && (
           <>
-            <MenuItem to="/medicines" activeClassName="active">
+            <MenuItem to="/medicines" className={({ isActive }) => (isActive ? "active" : "")}>
               <BiPackage /> Thuốc
             </MenuItem>
-            <MenuItem to="/suppliers" activeClassName="active">
+            <MenuItem to="/suppliers" className={({ isActive }) => (isActive ? "active" : "")}>
               <BiBuildings /> Nhà Cung Cấp
             </MenuItem>
             <MenuItem
@@ -219,10 +219,10 @@ const Sidebar = () => {
               {isPaymentSubMenuOpen ? <BiChevronUp style={{ marginLeft: 'auto' }} /> : <BiChevronDown style={{ marginLeft: 'auto' }} />}
             </MenuItem>
             <SubMenu isOpen={isPaymentSubMenuOpen}>
-              <MenuItem to="/payments/create" activeClassName="active">
+              <MenuItem to="/payments/create" className={({ isActive }) => (isActive ? "active" : "")}>
                 Tạo Phiếu Nhập
               </MenuItem>
-              <MenuItem to="/payments/list" activeClassName="active">
+              <MenuItem to="/payments/list" className={({ isActive }) => (isActive ? "active" : "")}>
                 Danh Sách Phiếu Nhập
               </MenuItem>
             </SubMenu>
@@ -231,10 +231,10 @@ const Sidebar = () => {
 
         {role === 'Admin' && (
           <>
-            <MenuItem to="/employees" activeClassName="active">
+            <MenuItem to="/employees" className={({ isActive }) => (isActive ? "active" : "")}>
               <BiGroup /> Nhân Viên
             </MenuItem>
-            <MenuItem to="/accounts" activeClassName="active">
+            <MenuItem to="/accounts" className={({ isActive }) => (isActive ? "active" : "")}>
               <BiLock /> Tài Khoản
             </MenuItem>
           </>
