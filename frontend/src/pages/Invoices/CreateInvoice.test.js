@@ -205,7 +205,7 @@ describe('CreateInvoice component', () => {
       expect(within(invoiceModal).getByText(/0123456789/i)).toBeInTheDocument();
       expect(within(invoiceModal).getByText(/123 Ha Noi/i)).toBeInTheDocument();
       expect(within(invoiceModal).getByText(/Cash/i)).toBeInTheDocument();
-      expect(within(invoiceModal).getByText(/Chưa thanh toán/i)).toBeInTheDocument();
+      expect(within(invoiceModal).getByText(/Đã thanh toán/i)).toBeInTheDocument();
       expect(within(invoiceModal).getByText(/Paracetamol/i)).toBeInTheDocument();
 
       // Scope the price check to the "Đơn giá" cell in the table row for Paracetamol
