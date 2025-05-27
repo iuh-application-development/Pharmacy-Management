@@ -48,15 +48,27 @@ class ChatbotAPIView(APIView):
             customers_res.raise_for_status()
             customers = customers_res.json()
 
+            invoices_res = requests.get("http://127.0.0.1:8000/api/sales/invoices/", headers=headers)
+            invoices_res.raise_for_status()
+            invoices = invoices_res.json()
+
+            invoice_details_res = requests.get("http://127.0.0.1:8000/api/sales/invoice-details/", headers=headers)
+            invoice_details_res.raise_for_status()
+            invoice_details = invoice_details_res.json()
+
             context_data = {
                 "medicines": medicines,
-                "customers": customers
+                "customers": customers,
+                "invoices": invoices,
+                "invoice_details": invoice_details
             }
         except Exception as e:
             logger.error(f"Error fetching backend data: {str(e)}")
             context_data = {
                 "medicines": [],
                 "customers": [],
+                "invoices": [],
+                "invoice_details": [],
                 "error": f"Lỗi khi lấy dữ liệu backend: {str(e)}"
             }
 
