@@ -120,12 +120,7 @@ const CreateInvoice = () => {
       // Check if customer exists
       let customerID;
       try {
-        // Lấy toàn bộ danh sách khách hàng
-        const customersRes = await axios.get(
-          'http://localhost:8000/api/sales/customers/',
-          { headers }
-        );
-        // Tìm khách hàng trùng tên và số điện thoại
+        const customersRes = await axios.get('http://localhost:8000/api/sales/customers/', { headers });
         const existingCustomer = customersRes.data.find(
           (c) =>
             c.fullName.trim().toLowerCase() === form.customerName.trim().toLowerCase() &&
@@ -134,7 +129,6 @@ const CreateInvoice = () => {
         if (existingCustomer) {
           customerID = existingCustomer.customerID;
         } else {
-          // Tạo khách hàng mới nếu không tìm thấy
           const customerResponse = await axios.post(
             'http://localhost:8000/api/sales/customers/',
             {
@@ -152,6 +146,7 @@ const CreateInvoice = () => {
         console.error('Error checking or creating customer:', error.response?.data || error.message);
         return;
       }
+
       // Create invoice
       const invoiceResponse = await axios.post(
         'http://localhost:8000/api/sales/invoices/',
@@ -164,6 +159,7 @@ const CreateInvoice = () => {
         { headers }
       );
       const invoiceID = invoiceResponse.data.invoiceID;
+      const invoiceTime = invoiceResponse.data.invoiceTime; // Lấy thời gian tạo hóa đơn
 
       // Add invoice details
       await Promise.all(
@@ -190,6 +186,7 @@ const CreateInvoice = () => {
         status: form.status,
         medicines: cart,
         totalAmount: calculateTotal(),
+        invoiceTime, // Thêm thời gian tạo hóa đơn
       });
       setShowInvoiceModal(true);
 
@@ -333,7 +330,7 @@ const CreateInvoice = () => {
             required
           />
           <Select
-            aria-label="Chọn giới tính" //Thêm aria-label để cải thiện khả năng truy vấn
+            aria-label="Chọn giới tính"
             value={form.gender}
             onChange={(e) => setForm({ ...form, gender: e.target.value })}
             required
@@ -377,6 +374,7 @@ const CreateInvoice = () => {
       {showInvoiceModal && invoiceData && (
         <div id="invoice-print-area" style={{ padding: '1rem', backgroundColor: '#fff', borderRadius: '8px' }}>
           <h2>HÓA ĐƠN THANH TOÁN</h2>
+          <p><strong>Thời gian tạo:</strong> {invoiceData.invoiceTime ? new Date(invoiceData.invoiceTime).toLocaleString() : ''}</p>
           <p><strong>Tên khách hàng:</strong> {invoiceData.customerName}</p>
           <p><strong>Số điện thoại:</strong> {invoiceData.customerPhone}</p>
           <p><strong>Địa chỉ:</strong> {invoiceData.address}</p>

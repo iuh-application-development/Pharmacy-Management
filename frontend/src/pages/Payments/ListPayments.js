@@ -29,10 +29,11 @@ const ListPayments = () => {
           const medicineRes = await axios.get(`http://localhost:8000/api/medicines/medicines/${detail.medicine}/`, { headers });
           const supplierRes = await axios.get(`http://localhost:8000/api/medicines/suppliers/${paymentRes.data.supplier}/`, { headers });
           const employeeRes = await axios.get(`http://localhost:8000/api/auth/employees/${paymentRes.data.employee}/`, { headers });
-  
+
           return {
             id: detail.id,
             paymentID: detail.payment,
+            paymentTime: paymentRes.data.paymentTime, // Lấy thời gian tạo phiếu thu
             medicineName: medicineRes.data.medicineName,
             supplierName: supplierRes.data.supplierName,
             employeeName: employeeRes.data.fullName,
@@ -102,6 +103,7 @@ const ListPayments = () => {
             <tr>
               <TableHeader>STT</TableHeader>
               <TableHeader>Mã phiếu thu</TableHeader>
+              <TableHeader>Thời gian</TableHeader> {/* Thêm cột thời gian */}
               <TableHeader>Tên thuốc</TableHeader>
               <TableHeader>Nhà cung cấp</TableHeader>
               <TableHeader>Nhân viên</TableHeader>
@@ -115,6 +117,11 @@ const ListPayments = () => {
               <tr key={payment.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{payment.paymentID}</TableCell>
+                <TableCell>
+                  {payment.paymentTime
+                    ? new Date(payment.paymentTime).toLocaleString()
+                    : ''}
+                </TableCell>
                 <TableCell>{payment.medicineName}</TableCell>
                 <TableCell>{payment.supplierName}</TableCell>
                 <TableCell>{payment.employeeName}</TableCell>

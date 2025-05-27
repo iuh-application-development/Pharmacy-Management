@@ -47,19 +47,16 @@ const ListInvoices = () => {
     const headers = { Authorization: `Token ${token}` };
 
     try {
-      // Fetch invoice details for the specific invoice
       const invoiceDetailsUrl = `http://localhost:8000/api/sales/invoice-details/?invoice=${invoiceID}`;
       console.log('Calling API:', invoiceDetailsUrl);
       const invoiceDetailsRes = await axios.get(invoiceDetailsUrl, { headers });
       console.log('invoiceDetailsRes:', invoiceDetailsRes.data);
 
-      // Filter only details matching the given invoiceID
       const filteredDetails = invoiceDetailsRes.data.filter(
         (detail) => detail.invoice === invoiceID
       );
       console.log('filteredDetails:', filteredDetails);
 
-      // Fetch customer details from the invoice
       const invoiceUrl = `http://localhost:8000/api/sales/invoices/${invoiceID}/`;
       console.log('Calling API:', invoiceUrl);
       const invoiceRes = await axios.get(invoiceUrl, { headers });
@@ -70,7 +67,6 @@ const ListInvoices = () => {
       const customerRes = await axios.get(customerUrl, { headers });
       console.log('customerRes:', customerRes.data);
 
-      // Extract medicine details for the filtered invoice details
       const medicines = await Promise.all(
         filteredDetails.map(async (detail) => {
           const medicineUrl = `http://localhost:8000/api/medicines/medicines/${detail.medicine}/`;
@@ -87,14 +83,12 @@ const ListInvoices = () => {
       );
       console.log('medicines:', medicines);
 
-      // Calculate total amount
       const totalAmount = medicines.reduce(
         (sum, medicine) => sum + medicine.unitPrice * medicine.quantity,
         0
       );
       console.log('totalAmount:', totalAmount);
 
-      // Set the selected invoice details
       const details = {
         customerName: customerRes.data.fullName,
         details: medicines,
@@ -174,6 +168,7 @@ const ListInvoices = () => {
           <thead>
             <tr>
               <TableHeader>Mã hóa đơn</TableHeader>
+              <TableHeader>Thời gian</TableHeader>
               <TableHeader>Khách hàng</TableHeader>
               <TableHeader>Địa chỉ</TableHeader>
               <TableHeader>Phương thức thanh toán</TableHeader>
@@ -185,6 +180,11 @@ const ListInvoices = () => {
             {filteredInvoices.map((invoice) => (
               <tr key={invoice.invoiceID}>
                 <TableCell>{invoice.invoiceID}</TableCell>
+                <TableCell>
+                  {invoice.invoiceTime
+                    ? new Date(invoice.invoiceTime).toLocaleString()
+                    : ''}
+                </TableCell>
                 <TableCell>{invoice.customer}</TableCell>
                 <TableCell>{invoice.address}</TableCell>
                 <TableCell>{invoice.paymentMethod}</TableCell>
