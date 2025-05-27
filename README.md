@@ -17,7 +17,7 @@
 |------------------------|------------------------------|------------------------|------------------------------------------------------|
 | Trương Long Tý         | tytruong977@gmail.com        | Backend                | Thiết kế CSDL, xây dựng API, xử lý nghiệp vụ backend |
 | Nguyễn Thái Uy         | thaiuy1006@gmail.com         | Frontend               | Thiết kế UI/UX, phát triển giao diện React, tích hợp API |
-| Vương Nguyễn Anh Khoa  | vnmkhoa.2910@gmail.com       | Testing                | Viết test case, kiểm thử chức năng, kiểm thử hiệu năng |
+| Vương Nguyễn Minh Khoa  | vnmkhoa.2910@gmail.com       | Testing                | Viết test case, kiểm thử chức năng, kiểm thử hiệu năng |
 | Trần Anh Tuấn          | anhtuan59gz@gmail.com        | Deploy                 | Triển khai Docker, vận hành hệ thống  |
 
 > **Video demo:** [Google Drive](https://drive.google.com/drive/u/0/folders/1lflXZAQC-9PlWGppBfAMvlg9ZoPFjrh4)  
