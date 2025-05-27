@@ -13,12 +13,15 @@
 
 ## 1. THÔNG TIN NHÓM
 
-| Họ và tên              | Email                        | Vai trò                |
-|------------------------|------------------------------|------------------------|
-| Trương Long Tý         | tytruong977@gmail.com        | Backend   |
-| Nguyễn Thái Uy         | thaiuy1006@gmail.com         | Frontend                |
-| Vương Nguyễn Anh Khoa  | vnmkhoa.2910@gmail.com       | Testing  |
-| Trần Anh Tuấn          | anhtuan59gz@gmail.com        | Deploy               |
+| Họ và tên              | Email                        | Vai trò                | Phân công công việc                                  |
+|------------------------|------------------------------|------------------------|------------------------------------------------------|
+| Trương Long Tý         | tytruong977@gmail.com        | Backend                | Thiết kế CSDL, xây dựng API, xử lý nghiệp vụ backend |
+| Nguyễn Thái Uy         | thaiuy1006@gmail.com         | Frontend               | Thiết kế UI/UX, phát triển giao diện React, tích hợp API |
+| Vương Nguyễn Anh Khoa  | vnmkhoa.2910@gmail.com       | Testing                | Viết test case, kiểm thử chức năng, kiểm thử hiệu năng |
+| Trần Anh Tuấn          | anhtuan59gz@gmail.com        | Deploy                 | Triển khai Docker, vận hành hệ thống  |
+
+> **Video demo:** [Google Drive](https://drive.google.com/drive/u/0/folders/1lflXZAQC-9PlWGppBfAMvlg9ZoPFjrh4)  
+> **Link triển khai:** [Pharmacy Management](http://pharmacy-management.click/)
 
 ## 2. MÔ TẢ ĐỀ TÀI
 
@@ -150,9 +153,6 @@ Nếu muốn tạo tài khoản admin:
 ```sh
 docker-compose exec backend python manage.py createsuperuser
 ```
-
-**Video demo:** [Google Drive](https://drive.google.com/drive/u/0/folders/1lflXZAQC-9PlWGppBfAMvlg9ZoPFjrh4)  
-**Link bản triển khai:** [Pharmacy Management](http://pharmacy-management.click/)
 
 ## 6. KIỂM THỬ
 
